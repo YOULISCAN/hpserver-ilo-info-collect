@@ -13,7 +13,8 @@ num_threads1 = 5
 q = queue.Queue()
 p = queue.Queue()
 addlock = threading.Lock()
-strr = 'HP Integrated Lights-Out mpSSH'
+strr1 = 'HP Integrated Lights-Out mpSSH'
+strr2 = "AllegroSoft RomSShell"
 #class collect_IP():
 def connect_mysql( IP, judge):
     if judge == 0:
@@ -61,7 +62,7 @@ def judge_ilo(self):
         portinfo = nm.csv()
         portinfo1 = portinfo.split(';')
         for i in portinfo1:
-            if i == strr :
+            if i == strr1 or i == strr2 :
                 print(ip,'----->该IP已配置ilo插入数据库')
                 connection = pymysql.connect(host='10.172.108.229', port=3306, user='SM', passwd='SM-dpbg123.',db='hpilo_info_collect', charset='utf8')
                 try:
