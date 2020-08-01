@@ -1,7 +1,7 @@
 import pymysql,nmap
 
 nm = nmap.PortScanner()
-portinfo = nm.scan('10.172.111.87','22,443')
+portinfo = nm.scan('10.172.100.54','22')
 portinfo = nm.csv()
 print(portinfo)
 # connection = pymysql.connect(host='10.172.108.229', port=3306, user='SM', passwd='SM-dpbg123.',db='hpilo_info_collect', charset='utf8')
