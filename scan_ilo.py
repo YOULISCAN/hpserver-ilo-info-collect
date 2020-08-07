@@ -14,7 +14,7 @@ q = queue.Queue()
 p = queue.Queue()
 addlock = threading.Lock()
 strr1 = 'HP Integrated Lights-Out mpSSH'
-strr2 = "AllegroSoft RomSShell"
+strr2 = "AllegroSoft RomSShell sshd"
 #class collect_IP():
 def connect_mysql( IP, judge):
     if judge == 0:

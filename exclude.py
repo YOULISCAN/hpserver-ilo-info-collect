@@ -32,16 +32,17 @@ for ip in a:
     all_ip.append(ip)
 
 diff = []
+
 while True:
     item = q_dba.get()
     count = 0
     for i in all_ip:
-        if item == i:
-            break
-        else:
+        if item != i:
             count += 1
-            if count == len(all_ip) :
+            if count == len(all_ip):
                 diff.append(item)
+        else:
+            break
 
     if q_dba.qsize() == 0:
         break
