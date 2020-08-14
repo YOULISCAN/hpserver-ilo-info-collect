@@ -19,7 +19,7 @@ strr2 = "AllegroSoft RomSShell sshd"
 def connect_mysql( IP, judge):
     if judge == 0:
         p.put(IP)
-        connection = pymysql.connect(host='10.172.108.229',port=3306,user='SM',passwd='SM-dpbg123.',db='hpilo_info_collect',charset='utf8')
+        connection = pymysql.connect(host='10.172.108.131',port=3306,user='SM',passwd='SM-dpbg123.',db='hpilo',charset='utf8')
         try:
             with connection.cursor() as cursor:
                 sql = "insert into `using_IP` (`IP`) value (%s)"
@@ -28,7 +28,7 @@ def connect_mysql( IP, judge):
         finally:
             connection.close()
     else:
-        connection = pymysql.connect(host='10.172.108.229', port=3306, user='SM', passwd='SM-dpbg123.', db='hpilo_info_collect',charset='utf8')
+        connection = pymysql.connect(host='10.172.108.131', port=3306, user='SM', passwd='SM-dpbg123.', db='hpilo',charset='utf8')
         try:
             with connection.cursor() as cursor:
                 sql = "insert into `dead_IP` (`IP`) value (%s)"
@@ -64,7 +64,7 @@ def judge_ilo(self):
         for i in portinfo1:
             if i == strr1 or i == strr2 :
                 print(ip,'----->该IP已配置ilo插入数据库')
-                connection = pymysql.connect(host='10.172.108.229', port=3306, user='SM', passwd='SM-dpbg123.',db='hpilo_info_collect', charset='utf8')
+                connection = pymysql.connect(host='10.172.108.131', port=3306, user='SM', passwd='SM-dpbg123.',db='hpilo', charset='utf8')
                 try:
                     with connection.cursor() as cursor:
                         sql1 = "insert into `ilo_IP` (`ip`) value (%s)"
@@ -77,7 +77,7 @@ def judge_ilo(self):
 
 
 if __name__ == '__main__':
-    file = open("IP.txt", 'r', encoding='utf-8')
+    file = open("ipam\IP.txt", 'r', encoding='utf-8')
     for i in file:
         i = i.strip()
         q.put(i)

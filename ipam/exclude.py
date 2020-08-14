@@ -7,17 +7,17 @@ import pymysql
 q_dba = queue.Queue()
 q_all = queue.Queue()
 
-file = open("DBA_ilo.txt", 'r', encoding='utf-8')
+file = open("ipam\DBA_ilo.txt", 'r', encoding='utf-8')
 for i in file:
     i = i.strip()
     q_dba.put(i)
 
 
-connection = pymysql.connect(host='10.172.108.229',
+connection = pymysql.connect(host='10.172.108.131',
                                  port=3306,
                                  user='SM',
                                  passwd='SM-dpbg123.',
-                                 db='hpilo_info_collect',
+                                 db='hpilo',
                                  charset="utf8")
 try:
     with connection.cursor() as cursor:
