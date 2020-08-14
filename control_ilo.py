@@ -6,11 +6,11 @@ import os
 
 
 def get_ilo():
-    connection = pymysql.connect(host='10.172.108.229',
+    connection = pymysql.connect(host='10.172.108.131',
                                  port=3306,
                                  user='SM',
                                  passwd='SM-dpbg123.',
-                                 db='hpilo_info_collect',
+                                 db='hpilo',
                                  charset="utf8")
     try:
         with connection.cursor() as cursor:
