@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData">
+  <component name="PublishConfigData" autoUploadExternalChanges="true">
     <serverData>
-      <paths name="root@10.172.108.229:22">
+      <paths name="root@10.172.108.100:22">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="root@10.172.108.131:22">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/opt" local="$PROJECT_DIR$" />
           </mappings>
         </serverdata>
       </paths>
