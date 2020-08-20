@@ -16,23 +16,27 @@ addlock = threading.Lock()
 strr1 = 'HP Integrated Lights-Out mpSSH'
 strr2 = "AllegroSoft RomSShell sshd"
 #class collect_IP():
-def connect_mysql( IP, judge):
+
+
+def connect_mysql( IP,judge):
     if judge == 0:
         p.put(IP)
         connection = pymysql.connect(host='10.172.108.131',port=3306,user='SM',passwd='SM-dpbg123.',db='hpilo',charset='utf8')
         try:
+            status = 1
             with connection.cursor() as cursor:
-                sql = "insert into `using_IP` (`IP`) value (%s)"
-                cursor.execute(sql, (IP))
+                sql1 = "insert into `scan_IP` (`IP`,`status`) value (%s,%s)"
+                cursor.execute(sql1, (IP,status))
             connection.commit()
         finally:
             connection.close()
     else:
+        status = 0
         connection = pymysql.connect(host='10.172.108.131', port=3306, user='SM', passwd='SM-dpbg123.', db='hpilo',charset='utf8')
         try:
             with connection.cursor() as cursor:
-                sql = "insert into `dead_IP` (`IP`) value (%s)"
-                cursor.execute(sql, (IP))
+                sql1 = "insert into `scan_IP` (`IP`,`status`) value (%s,%s)"
+                cursor.execute(sql1, (IP,status))
             connection.commit()
         finally:
             connection.close()
@@ -66,9 +70,10 @@ def judge_ilo(self):
                 print(ip,'----->该IP已配置ilo插入数据库')
                 connection = pymysql.connect(host='10.172.108.131', port=3306, user='SM', passwd='SM-dpbg123.',db='hpilo', charset='utf8')
                 try:
+                    status = 1
                     with connection.cursor() as cursor:
-                        sql1 = "insert into `ilo_IP` (`ip`) value (%s)"
-                        cursor.execute(sql1, (ip))
+                        sql1 = "insert into `ilo_IP` (`IP`,`status`) value (%s,%s)"
+                        cursor.execute(sql1, (ip,status))
                     connection.commit()
                 finally:
                     connection.close()
