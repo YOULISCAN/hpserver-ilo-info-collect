@@ -101,7 +101,7 @@ for ip in a:
     if flag == 6:
         try:
             print("---------------尝试账号(6)登录IP:%s----------------"%(ip))
-            ilo = hpilo.Ilo(ip, login="adminstrators", password="idpbg123.")
+            ilo = hpilo.Ilo(ip, login="scadmin", password="iL0!@#123")
             ilo.get_fw_version()
             insert_flag(flag, ip)
         except:
@@ -111,7 +111,7 @@ for ip in a:
     if flag == 7:
         try:
             print("---------------尝试账号(7)登录IP:%s----------------"%(ip))
-            ilo = hpilo.Ilo(ip, login="Administrator", password="password")
+            ilo = hpilo.Ilo(ip, login="scadmin", password="dpbg123.")
             ilo.get_fw_version()
             insert_flag(flag, ip)
         except:
