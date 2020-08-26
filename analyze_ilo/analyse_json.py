@@ -3,6 +3,10 @@ import hpilo
 
 
 class iLo_info():
+    def get_fan_info_ilo3(self,all_info):
+        fan = all_info['fans']
+        for i in fan.items():
+            print("{}: status:{}; speed:{}".format(i[0],i[1]['status'],i[1]['speed']))
 
     def get_firmware_info(self,all_info):
         firmware = all_info['firmware_information']
@@ -13,9 +17,9 @@ class iLo_info():
     def get_storage_info_ilo3(self,all_info):
         storage = all_info['drives_backplanes']
         for i in storage:
-            print("firmware_version: {}; enclosure: {};".format(i['firmware_version'],i['enclosure_addr'])),
-            for j in i['drive_bays']:
-                print(j)
+            print("firmware_version: {}; enclosure: {};".format(i['firmware_version'],i['enclosure_addr']))
+            for j in i['drive_bays'].items():
+                print("addr:{}; status:{}; product_id:{}; uid_led:{}".format(j[0],j[1]['status'],j[1]['product_id'],j[1]['uid_led']))
 
 
 
@@ -47,23 +51,22 @@ class iLo_info():
     def get_memory_info_ilo3(self,all_info):
         memory = all_info['memory']
         print("{}:".format('memory'))
-        for i in memory.values():
-            if i[1][1][1] == "Not Installed":
-                continue
+        for i in memory.values()[0]:
+            if i[1][1]['value'] == "Not Installed":
+                pass
             else:
-                print("memory_location:{}".format(i[0][1][1],i[1][1][1],i[2][1][1]))
+                print("memory_location:{}; memory_size:{}; memory_speed:{}".format(i[0][1]['value'],i[1][1]['value'],i[2][1]['value']))
 
     def get_network_info_ilo3(self,all_info):
         network = all_info['nic_information']
         for i in network:
             print("network_port: {}; mac_address: {}".format(i['network_port'],i['mac_address']))
-
     def get_network_info(self,all_info):
         network = all_info['nic_information']
         for i in network.keys():
             j = network[i]
-            print("network:{} \
-                     network_port:{} \
+            print("network:{}\
+                     network_port:{}\
                      status:{}\
                      port_description:{}\
                      location:{}\
@@ -149,12 +152,17 @@ class ilo3_info():
 
 
 
-ilo = hpilo.Ilo('10.172.100.174',login='admin',password='iL0!@#123')
+
+ip = str(raw_input("请输入IP:"))
+login = str(raw_input("请输入用户名:"))
+password = str(raw_input("请输入密码:"))
+ilo = hpilo.Ilo(ip,login=login,password=password)
 all_info = ilo.get_embedded_health()
 a = iLo_info()
 version = ilo.get_fw_version()
 if version['management_processor'] == 'iLO3':
     a.get_glance_info_ilo3(all_info)
+    a.get_fan_info_ilo3(all_info)
     a.get_temperature_info_ilo3(all_info)
     a.get_power_info_ilo3(all_info)
     a.get_processors_info_ilo3(all_info)
@@ -162,4 +170,13 @@ if version['management_processor'] == 'iLO3':
     a.get_network_info_ilo3(all_info)
     a.get_storage_info_ilo3(all_info)
     a.get_firmware_info(all_info)
-
+else:
+    a.get_glance_info(all_info)
+    a.get_fan_info(all_info)
+    a.get_temperature_info(all_info)
+    a.get_processors_info(all_info)
+    a.get_memory_info(all_info)
+    a.get_network_info(all_info)
+    a.get_power_info(all_info)
+    a.get_storage_info(all_info)
+    a.get_firmware_info(all_info)
