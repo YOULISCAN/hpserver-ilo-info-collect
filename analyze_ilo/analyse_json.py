@@ -142,6 +142,14 @@ class iLo_info():
                                                 glance['power_supplies']['status'],
                                                 glance['drive']['status']))
 
+    def get_log_info(self,ilo):
+        server_event = ilo.get_server_event_log()
+        with open('server_event.txt','w+') as f:
+            f.write(server_event)
+        log_event = ilo.get_ilo_event_log()
+        with open('ilo_log.txt','w+') as f:
+            f.write(log_event)
+
 class ilo4_info():
     pass
 
@@ -171,6 +179,7 @@ if version['management_processor'] == 'iLO3':
     a.get_storage_info_ilo3(all_info)
     a.get_firmware_info(all_info)
 else:
+    a.get_log_info(ilo)
     a.get_glance_info(all_info)
     a.get_fan_info(all_info)
     a.get_temperature_info(all_info)
