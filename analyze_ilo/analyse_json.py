@@ -141,6 +141,23 @@ class iLo_info():
                                                 glance['temperature']['status'],
                                                 glance['power_supplies']['status'],
                                                 glance['drive']['status']))
+    def get_glance_info_ilo4(self,all_info):
+        glance = all_info['health_at_a_glance']
+        print("bios_hardware:\
+                      fans status:{}\
+                      temperature status:{}\
+                      power_supplies status:{}\
+                      processor status:{}\
+                      memory status:{}\
+                      network status:{}\
+                      storage status:{}".format(glance['bios_hardware']['status'],
+                                                glance['fans']['status'],
+                                                glance['temperature']['status'],
+                                                glance['power_supplies']['status'],
+                                                glance['processor']['status'],
+                                                glance['memory']['status'],
+                                                glance['network']['status'],
+                                                glance['storage']['status']))
 
     def get_log_info(self,ilo):
         server_event = ilo.get_server_event_log()
@@ -177,6 +194,17 @@ if version['management_processor'] == 'iLO3':
     a.get_memory_info_ilo3(all_info)
     a.get_network_info_ilo3(all_info)
     a.get_storage_info_ilo3(all_info)
+    a.get_firmware_info(all_info)
+elif version['management_processor'] == 'iLO4':
+    a.get_log_info(ilo)
+    a.get_glance_info_ilo4(all_info)
+    a.get_fan_info(all_info)
+    a.get_temperature_info(all_info)
+    a.get_processors_info(all_info)
+    a.get_memory_info(all_info)
+    a.get_network_info(all_info)
+    a.get_power_info(all_info)
+    a.get_storage_info(all_info)
     a.get_firmware_info(all_info)
 else:
     a.get_log_info(ilo)
