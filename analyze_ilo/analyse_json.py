@@ -26,7 +26,7 @@ class iLo_info():
     def get_storage_info(self,all_info):
         storage = all_info['storage']
         Controller_on_System_Board = storage['Controller on System Board']
-        print("Controller on System Board_status:{}; controller_status:{}; cache_module_memory:{}; encryption_csp_status:{}".format(Controller_on_System_Board['status'],Controller_on_System_Board['controller_status'],Controller_on_System_Board['cache_module_memory'],Controller_on_System_Board['encryption_csp_status']))
+        print("Controller on System Board_status:{}; controller_status:{}; cache_module_memory:{};".format(Controller_on_System_Board['status'],Controller_on_System_Board['controller_status'],Controller_on_System_Board['cache_module_memory']))
         print('drive_enclosures:')
         for i in Controller_on_System_Board['drive_enclosures']:
             print("     {}".format(i))
@@ -162,10 +162,10 @@ class iLo_info():
     def get_log_info(self,ilo):
         server_event = ilo.get_server_event_log()
         with open('server_event.txt','w+') as f:
-            f.write(server_event)
+            f.write(str(server_event))
         log_event = ilo.get_ilo_event_log()
         with open('ilo_log.txt','w+') as f:
-            f.write(log_event)
+            f.write(str(log_event))
 
 class ilo4_info():
     pass
@@ -178,9 +178,9 @@ class ilo3_info():
 
 
 
-ip = str(raw_input("请输入IP:"))
-login = str(raw_input("请输入用户名:"))
-password = str(raw_input("请输入密码:"))
+ip = str(input("请输入IP:"))
+login = str(input("请输入用户名:"))
+password = str(input("请输入密码:"))
 ilo = hpilo.Ilo(ip,login=login,password=password)
 all_info = ilo.get_embedded_health()
 a = iLo_info()
