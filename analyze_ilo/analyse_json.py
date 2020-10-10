@@ -1,12 +1,7 @@
 # -*- coding: utf-8 -*-
 import hpilo
 
-
 class iLo_info():
-    def get_fan_info_ilo3(self,all_info):
-        fan = all_info['fans']
-        for i in fan.items():
-            print("{}: status:{}; speed:{}".format(i[0],i[1]['status'],i[1]['speed']))
 
     def get_firmware_info(self,all_info):
         firmware = all_info['firmware_information']
@@ -20,8 +15,6 @@ class iLo_info():
             print("firmware_version: {}; enclosure: {};".format(i['firmware_version'],i['enclosure_addr']))
             for j in i['drive_bays'].items():
                 print("addr:{}; status:{}; product_id:{}; uid_led:{}".format(j[0],j[1]['status'],j[1]['product_id'],j[1]['uid_led']))
-
-
 
     def get_storage_info(self,all_info):
         storage = all_info['storage']
@@ -57,22 +50,20 @@ class iLo_info():
             else:
                 print("memory_location:{}; memory_size:{}; memory_speed:{}".format(i[0][1]['value'],i[1][1]['value'],i[2][1]['value']))
 
-    def get_network_info_ilo3(self,all_info):
-        network = all_info['nic_information']
+    def get_network_info_ilo3(self,xmldata):
+        network = xmldata['hsi']['nics']
+        print("network:")
         for i in network:
-            print("network_port: {}; mac_address: {}".format(i['network_port'],i['mac_address']))
-    def get_network_info(self,all_info):
-        network = all_info['nic_information']
-        for i in network.keys():
-            j = network[i]
-            print("network:{}\
-                     network_port:{}\
-                     status:{}\
-                     port_description:{}\
-                     location:{}\
-                     mac_address:{}\
-                     ip_address:{}".format(i, j['network_port'], j['status'], j['port_description'], j['location'], j['mac_address'], j['ip_address']))
-
+            if i['status'] != 'Unknown' and i['status'] != 'Disabled' :
+                print("description: {}; status: {}; ipaddr: {}; macaddr: {}; port: {}".format(i['description'],i['status'],i['ipaddr'],i['macaddr'],i['port']))
+    def get_network_info(self,xmldata):
+        network = xmldata['hsi']['nics']
+        print("network:")
+        for i in network:
+            if i['status'] != 'Unknown' and i['status'] != 'Disabled':
+                print("description: {}; status: {}; ipaddr: {}; macaddr: {}; port: {}".format(i['description'],
+                                                                                              i['status'], i['ipaddr'],
+                                                                                              i['macaddr'], i['port']))
 
     def get_processors_info_ilo3(self,all_info):
         proces = all_info['processors']
@@ -90,10 +81,27 @@ class iLo_info():
         for i in range(1,len(fan)+1):
             print("风扇{2}状态：{0},风扇{2}速度：{1}".format(fan["Fan %d"%i]["status"],fan["Fan %d"%i]["speed"],i))
 
+    def get_fan_info_ilo3(self,all_info):
+        fan = all_info['fans']
+        for i in fan.items():
+            print("{}: status:{}; speed:{}".format(i[0],i[1]['status'],i[1]['speed']))
+
+
     def get_power_info(self,all_info):
-        power = all_info['power_supplies']
-        for i in power:
-            print("{}: 'status: {}; capacity: {}".format(i,power[i]['status'],power[i]['capacity']))
+        power_supplies = all_info['power_supplies']
+        for i in power_supplies:
+            print("{}: 'status: {}; capacity: {}".format(i,power_supplies[i]['status'],power_supplies[i]['capacity']))
+
+        power_supply_summary = all_info['power_supply_summary']
+        print("present_power_reading: {};\
+               power_management_controller_firmware_version: {};\
+               power_system_redundancy: {};\
+               high_efficiency_mode: {}".format(power_supply_summary['present_power_reading'],
+                                                power_supply_summary['power_management_controller_firmware_version'],
+                                                power_supply_summary['power_system_redundancy'],
+                                                power_supply_summary['high_efficiency_mode']))
+
+
     def get_power_info_ilo3(self,all_info):
         power = all_info['power_supplies']
         for i in power:
@@ -177,43 +185,48 @@ class ilo3_info():
 
 
 
+if __name__ == '__main__':
+    ip = str(input("请输入IP:"))
+    login = str(input("请输入用户名:"))
+    password = str(input("请输入密码:"))
+    ilo = hpilo.Ilo(ip,login=login,password=password)
 
-ip = str(input("请输入IP:"))
-login = str(input("请输入用户名:"))
-password = str(input("请输入密码:"))
-ilo = hpilo.Ilo(ip,login=login,password=password)
-all_info = ilo.get_embedded_health()
-a = iLo_info()
-version = ilo.get_fw_version()
-if version['management_processor'] == 'iLO3':
-    a.get_glance_info_ilo3(all_info)
-    a.get_fan_info_ilo3(all_info)
-    a.get_temperature_info_ilo3(all_info)
-    a.get_power_info_ilo3(all_info)
-    a.get_processors_info_ilo3(all_info)
-    a.get_memory_info_ilo3(all_info)
-    a.get_network_info_ilo3(all_info)
-    a.get_storage_info_ilo3(all_info)
-    a.get_firmware_info(all_info)
-elif version['management_processor'] == 'iLO4':
-    a.get_log_info(ilo)
-    a.get_glance_info_ilo4(all_info)
-    a.get_fan_info(all_info)
-    a.get_temperature_info(all_info)
-    a.get_processors_info(all_info)
-    a.get_memory_info(all_info)
-    a.get_network_info(all_info)
-    a.get_power_info(all_info)
-    a.get_storage_info(all_info)
-    a.get_firmware_info(all_info)
-else:
-    a.get_log_info(ilo)
-    a.get_glance_info(all_info)
-    a.get_fan_info(all_info)
-    a.get_temperature_info(all_info)
-    a.get_processors_info(all_info)
-    a.get_memory_info(all_info)
-    a.get_network_info(all_info)
-    a.get_power_info(all_info)
-    a.get_storage_info(all_info)
-    a.get_firmware_info(all_info)
+    #获取基本信息
+    server = ilo.get_product_name() #获得服务器型号
+    hostname = ilo.get_server_name() #获得主机名称
+    all_info = ilo.get_embedded_health()
+    a = iLo_info()
+    xmldata = ilo.xmldata()
+    version = ilo.get_fw_version()
+    if version['management_processor'] == 'iLO3':
+        a.get_glance_info_ilo3(all_info)
+        a.get_fan_info_ilo3(all_info)
+        a.get_temperature_info_ilo3(all_info)
+        a.get_power_info_ilo3(all_info)
+        a.get_processors_info_ilo3(all_info)
+        a.get_memory_info_ilo3(all_info)
+        a.get_network_info_ilo3(xmldata)
+        a.get_storage_info_ilo3(all_info)
+        a.get_firmware_info(all_info)
+    elif version['management_processor'] == 'iLO4':
+        a.get_log_info(ilo)
+        a.get_glance_info_ilo4(all_info)
+        a.get_fan_info(all_info)
+        a.get_temperature_info(all_info)
+        a.get_processors_info(all_info)
+        a.get_memory_info(all_info)
+        a.get_network_info(xmldata)
+        a.get_power_info(all_info)
+        a.get_storage_info(all_info)
+        a.get_firmware_info(all_info)
+    else:
+        a.get_log_info(ilo)
+        a.get_glance_info(all_info)
+        a.get_fan_info(all_info)
+        a.get_temperature_info(all_info)
+        a.get_processors_info(all_info)
+        a.get_memory_info(all_info)
+        a.get_network_info(xmldata)
+        a.get_power_info(all_info)
+        a.get_storage_info(all_info)
+        a.get_firmware_info(all_info)

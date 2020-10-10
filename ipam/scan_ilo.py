@@ -1,12 +1,11 @@
-
+# -*- coding: utf-8 -*-
 #网段扫描
-import hpilo
 import subprocess
-import os
-import pymysql
-import queue
 import threading
+
 import nmap
+import cx_Oracle
+import queue
 
 num_threads = 10
 num_threads1 = 5
@@ -18,25 +17,29 @@ strr2 = "AllegroSoft RomSShell sshd"
 #class collect_IP():
 
 
-def connect_mysql( IP,judge):
+def connect_oracle( IP,judge):
+
     if judge == 0:
         p.put(IP)
-        connection = pymysql.connect(host='10.172.108.131',port=3306,user='SM',passwd='SM-dpbg123.',db='hpilo',charset='utf8')
+        connection = cx_Oracle.connect('gl_sm/gl_sm@10.195.227.244/db244d')
         try:
             status = 1
+            param = {'IP': IP, 'status': status}
             with connection.cursor() as cursor:
-                sql1 = "insert into `scan_IP` (`IP`,`status`) value (%s,%s)"
-                cursor.execute(sql1, (IP,status))
+#                sql = ""
+                cursor.execute('insert into "ip_test" values(:IP,:status)' , param)
             connection.commit()
         finally:
             connection.close()
     else:
-        status = 0
-        connection = pymysql.connect(host='10.172.108.131', port=3306, user='SM', passwd='SM-dpbg123.', db='hpilo',charset='utf8')
+
+        connection = cx_Oracle.connect('gl_sm/gl_sm@10.195.227.244/db244d')
         try:
+            status = 0
+            param = {'IP': IP, 'status': status}
             with connection.cursor() as cursor:
-                sql1 = "insert into `scan_IP` (`IP`,`status`) value (%s,%s)"
-                cursor.execute(sql1, (IP,status))
+            #    sql = "'insert into ip_test values(:IP,:status)' , param"
+                cursor.execute('insert into "ip_test" values(:IP,:status)' , param)
             connection.commit()
         finally:
             connection.close()
@@ -51,10 +54,10 @@ def Ping_all(self):
         with addlock:
             if res == 0:
                 print(ip,"------>该IP使用中")
-                connect_mysql(ip,res)
+                connect_oracle(ip,res)
             else:
                 print(ip,"------>该IP闲置中")
-                connect_mysql(ip,res)
+                connect_oracle(ip,res)
 
 def judge_ilo(self):
     print("----------------开始扫描指定IP--------------------")
@@ -68,12 +71,13 @@ def judge_ilo(self):
         for i in portinfo1:
             if i == strr1 or i == strr2 :
                 print(ip,'----->该IP已配置ilo插入数据库')
-                connection = pymysql.connect(host='10.172.108.131', port=3306, user='SM', passwd='SM-dpbg123.',db='hpilo', charset='utf8')
+                connection = cx_Oracle.connect('gl_sm/gl_sm@10.195.227.244/db244d')
                 try:
                     status = 1
+                    param = {'IP_ILO': ip, 'IP_ILO_STATUS': status}
                     with connection.cursor() as cursor:
-                        sql1 = "insert into `ilo_IP` (`IP`,`status`) value (%s,%s)"
-                        cursor.execute(sql1, (ip,status))
+                      # sql = ""
+                        cursor.execute('insert into ILO_INFO (IP_ILO,IP_ILO_STATUS)values(:IP_ILO,:IP_ILO_STATUS)',param)
                     connection.commit()
                 finally:
                     connection.close()
