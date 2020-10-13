@@ -192,7 +192,7 @@ if __name__ == '__main__':
     ilo = hpilo.Ilo(ip,login=login,password=password)
     
 
- """
+
     #获取基本信息
     server = ilo.get_product_name() #获得服务器型号
     hostname = ilo.get_server_name() #获得主机名称
@@ -231,4 +231,4 @@ if __name__ == '__main__':
         a.get_network_info(xmldata)
         a.get_power_info(all_info)
         a.get_storage_info(all_info)
-        a.get_firmware_info(all_info)  """
+        a.get_firmware_info(all_info)
