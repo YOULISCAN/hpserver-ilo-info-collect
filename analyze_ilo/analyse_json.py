@@ -72,20 +72,21 @@ def get_memory_info_ilo3(all_info):
         else:
             print("memory_location:{}; memory_size:{}; memory_speed:{}".format(i[0][1]['value'],i[1][1]['value'],i[2][1]['value']))
 
-def get_network_info_ilo3(xmldata):
-    network = xmldata['hsi']['nics']
-    print("network:")
-    for i in network:
-        if i['status'] != 'Unknown' and i['status'] != 'Disabled' :
-            print("description: {}; status: {}; ipaddr: {}; macaddr: {}; port: {}".format(i['description'],i['status'],i['ipaddr'],i['macaddr'],i['port']))
+# def get_network_info_ilo3(xmldata):
+#     network = xmldata['hsi']['nics']
+#     print("network:")
+#     for i in network:
+#         if i['status'] != 'Unknown' and i['status'] != 'Disabled' :
+#             print("description: {}; status: {}; ipaddr: {}; macaddr: {}; port: {}".format(i['description'],i['status'],i['ipaddr'],i['macaddr'],i['port']))
 def get_network_info(xmldata):
     network = xmldata['hsi']['nics']
     print("network:")
     for i in network:
-        if i['status'] != 'Unknown' and i['status'] != 'Disabled':
-            print("description: {}; status: {}; ipaddr: {}; macaddr: {}; port: {}".format(i['description'],
-                                                                                          i['status'], i['ipaddr'],
-                                                                                          i['macaddr'], i['port']))
+        # if i['status'] != 'Unknown' and i['status'] != 'Disabled':
+        #print("description: {}; status: {}; ipaddr: {}; macaddr: {}; port: {}".format(i['description'],i['status'], i['ipaddr'],i['macaddr'], i['port']))
+        yield (i['description'],i['status'], i['ipaddr'],i['macaddr'], i['port'])
+
+
 
 def get_processors_info_ilo3(all_info):
     proces = all_info['processors']
@@ -97,16 +98,22 @@ def get_processors_info(all_info):
     for i in proces:
         print("{}: name:{}; status:{}; speed:{}".format(i,proces[i]['name'],proces[i]['status'],proces[i]['speed']))
 
-def get_fan_info(all_info):
-
+def get_fan_info(ilo_model,all_info):
+    dict_fan = {}
     fan = all_info['fans']
-    for i in range(1,len(fan)+1):
-        print("风扇{2}状态：{0},风扇{2}速度：{1}".format(fan["Fan %d"%i]["status"],fan["Fan %d"%i]["speed"],i))
-
-def get_fan_info_ilo3(all_info):
-    fan = all_info['fans']
+    #for i in range(1, len(fan) + 1):
     for i in fan.items():
-        print("{}: status:{}; speed:{}".format(i[0],i[1]['status'],i[1]['speed']))
+        i[1]["speed"] = list(i[1]["speed"])
+#        speed =
+        print(i[1],i[1]['speed'][0],i[1]['zone'])
+        yield(i[1]["status"],i[1]['speed'][0],i[1]["zone"],i[1]["label"])
+#        print("风扇{2}状态：{0},风扇{2}速度：{1},风扇{2}位置：{3}".format(fan["Fan %d"%i]["status"],fan["Fan %d"%i]["speed"],i,fan["Fan %d"%i]['zone']))
+
+
+# def get_fan_info_ilo3(all_info):
+#     fan = all_info['fans']
+#     for i in fan.items():
+#         print("{}: status:{}; speed:{}".format(i[0],i[1]['status'],i[1]['speed']))
 
 
 def get_power_info(all_info):
@@ -263,8 +270,6 @@ def get_glance_info(all_info,fw_version):
                                                     glance['network']['status'],
                                                     glance['storage']['status']))
 """
-
-
 
 
 def get_log_info(ilo):
