@@ -43,6 +43,7 @@ def test():
 
         fan_all = analyse_json.get_fan_info(ilo_model, health_info)
 
+
 #        insert_db.update_fw_info(product_name,server_name,ilo_model,fw_version,fw_data,ip)
 #        insert_db.update_server_general_info(bios_hardware,fans,temperature,power_supplies,battery,processor,memory,network,storage,ip)
             #以上是获取硬件大体信息
@@ -67,7 +68,7 @@ def test():
                 elif i == 6:
                     insert_db.update_fan6_info(fan_status,fan_speed,fan_location,fan_label,ip)
                 # insert_db.update_server_general_info(fan_status,fan_speed,fan_location)
-        fan_info(ip)
+        #fan_info(ip)
         def network_info(ip):
            for i in range(1,11):
                try:
@@ -100,6 +101,619 @@ def test():
             network_xml = ilo.xmldata()
             network_all = analyse_json.get_network_info(network_xml)
             network_info(ip)
+
+        def memory_info(memory_all,ip):
+            for j in range(0,2):
+                for i in range(0,12):
+                    try:
+                        memory,socket,socket_status,socket_part_number,socket_type,socket_size,socket_frequency,socket_minimum_voltage = memory_all.next()
+                    except StopIteration:
+                        memory, socket, socket_status, socket_part_number, socket_type, socket_size, socket_frequency, socket_minimum_voltage = (None,None,None,None,None,None,None,None)
+                    print(memory,socket,socket_status,socket_part_number,socket_type,socket_size,socket_frequency,socket_minimum_voltage)
+                    if memory == 'CPU_1':
+                        if i == 1:
+                            insert_db.update_memory1_info(memory,socket,socket_status,socket_part_number,socket_type,socket_size,socket_frequency,socket_minimum_voltage,ip)
+                        elif i == 2:
+                            insert_db.update_memory2_info(memory,socket,socket_status,socket_part_number,socket_type,socket_size,socket_frequency,socket_minimum_voltage,ip)
+                        elif i == 3:
+                            insert_db.update_memory3_info(memory,socket,socket_status,socket_part_number,socket_type,socket_size,socket_frequency,socket_minimum_voltage,ip)
+                        elif i == 4:
+                            insert_db.update_memory4_info(memory,socket,socket_status,socket_part_number,socket_type,socket_size,socket_frequency,socket_minimum_voltage,ip)
+                        elif i == 5:
+                            insert_db.update_memory5_info(memory,socket,socket_status,socket_part_number,socket_type,socket_size,socket_frequency,socket_minimum_voltage,ip)
+                        elif i == 6:
+                            insert_db.update_memory6_info(memory,socket,socket_status,socket_part_number,socket_type,socket_size,socket_frequency,socket_minimum_voltage,ip)
+                        elif i == 7:
+                            insert_db.update_memory7_info(memory,socket,socket_status,socket_part_number,socket_type,socket_size,socket_frequency,socket_minimum_voltage,ip)
+                        elif i == 8:
+                            insert_db.update_memory8_info(memory,socket,socket_status,socket_part_number,socket_type,socket_size,socket_frequency,socket_minimum_voltage,ip)
+                        elif i == 9:
+                            insert_db.update_memory9_info(memory,socket,socket_status,socket_part_number,socket_type,socket_size,socket_frequency,socket_minimum_voltage,ip)
+                        elif i == 10:
+                            insert_db.update_memory10_info(memory,socket,socket_status,socket_part_number,socket_type,socket_size,socket_frequency,socket_minimum_voltage,ip)
+                        elif i == 11:
+                            insert_db.update_memory11_info(memory,socket,socket_status,socket_part_number,socket_type,socket_size,socket_frequency,socket_minimum_voltage,ip)
+                        elif i == 12:
+                            insert_db.update_memory12_info(memory,socket,socket_status,socket_part_number,socket_type,socket_size,socket_frequency,socket_minimum_voltage,ip)
+                    else:
+                        if i == 1:
+                            insert_db.update_memory2_1_info(memory, socket, socket_status,
+                                                          socket_part_number, socket_type, socket_size, socket_frequency,socket_minimum_voltage,ip)
+                        elif i == 2:
+                            insert_db.update_memory2_2_info(memory, socket, socket_status,
+                                                          socket_part_number, socket_type, socket_size, socket_frequency,socket_minimum_voltage,ip)
+                        elif i == 3:
+                            insert_db.update_memory2_3_info(memory, socket, socket_status,
+                                                          socket_part_number, socket_type, socket_size, socket_frequency,socket_minimum_voltage,ip)
+                        elif i == 4:
+                            insert_db.update_memory2_4_info(memory, socket, socket_status,
+                                                          socket_part_number, socket_type, socket_size, socket_frequency,socket_minimum_voltage,ip)
+                        elif i == 5:
+                            insert_db.update_memory2_5_info(memory, socket, socket_status,
+                                                          socket_part_number, socket_type, socket_size, socket_frequency,socket_minimum_voltage,ip)
+                        elif i == 6:
+                            insert_db.update_memory2_6_info(memory, socket, socket_status,
+                                                          socket_part_number, socket_type, socket_size, socket_frequency,socket_minimum_voltage,ip)
+                        elif i == 7:
+                            insert_db.update_memory2_7_info(memory, socket, socket_status,
+                                                          socket_part_number, socket_type, socket_size, socket_frequency,socket_minimum_voltage,ip)
+                        elif i == 8:
+                            insert_db.update_memory2_8_info(memory, socket, socket_status,
+                                                          socket_part_number, socket_type, socket_size, socket_frequency,socket_minimum_voltage,ip)
+                        elif i == 9:
+                            insert_db.update_memory2_9_info(memory, socket, socket_status,
+                                                          socket_part_number, socket_type, socket_size, socket_frequency,socket_minimum_voltage,ip)
+                        elif i == 10:
+                            insert_db.update_memory2_10_info(memory, socket, socket_status,
+                                                           socket_part_number, socket_type, socket_size, socket_frequency,socket_minimum_voltage,ip)
+                        elif i == 11:
+                            insert_db.update_memory2_11_info(memory, socket, socket_status,
+                                                           socket_part_number, socket_type, socket_size, socket_frequency,socket_minimum_voltage,ip)
+                        elif i == 12:
+                            insert_db.update_memory2_12_info(memory, socket, socket_status,
+                                                           socket_part_number, socket_type, socket_size, socket_frequency,socket_minimum_voltage,ip)
+        def memory_info_ilo3(memory_all,ip):
+            for i in range(0,2):
+                for j in range(0,9):
+                    try:
+                        socket,socket_size,socket_speed = memory_all.next()
+                    except StopIteration:
+                        socket,socket_size,socket_speed = (None,None,None)
+                    print(socket,socket_size,socket_speed)
+                    if str(socket)[5] == 1:
+                        if j == 1:
+                            insert_db.update_memory1_ilo3_info(socket,socket_size,socket_speed,ip)
+                        elif j == 2:
+                            insert_db.update_memory2_ilo3_info(socket,socket_size,socket_speed,ip)
+                        elif j == 3:
+                            insert_db.update_memory3_ilo3_info(socket,socket_size,socket_speed,ip)
+                        elif j == 4:
+                            insert_db.update_memory4_ilo3_info(socket,socket_size,socket_speed,ip)
+                        elif j == 5:
+                            insert_db.update_memory5_ilo3_info(socket,socket_size,socket_speed,ip)
+                        elif j == 6:
+                            insert_db.update_memory6_ilo3_info(socket,socket_size,socket_speed,ip)
+                        elif j == 7:
+                            insert_db.update_memory7_ilo3_info(socket,socket_size,socket_speed,ip)
+                        elif j == 8:
+                            insert_db.update_memory8_ilo3_info(socket,socket_size,socket_speed,ip)
+                        elif j == 9:
+                            insert_db.update_memory9_ilo3_info(socket,socket_size,socket_speed,ip)
+                    elif str(socket)[5] == 2:
+                        if j == 1:
+                            insert_db.update_memory2_1_ilo3_info(socket,socket_size,socket_speed,ip)
+                        elif j == 2:
+                            insert_db.update_memory2_2_ilo3_info(socket,socket_size,socket_speed,ip)
+                        elif j == 3:
+                            insert_db.update_memory2_3_ilo3_info(socket,socket_size,socket_speed,ip)
+                        elif j == 4:
+                            insert_db.update_memory2_4_ilo3_info(socket,socket_size,socket_speed,ip)
+                        elif j == 5:
+                            insert_db.update_memory2_5_ilo3_info(socket,socket_size,socket_speed,ip)
+                        elif j == 6:
+                            insert_db.update_memory2_6_ilo3_info(socket,socket_size,socket_speed,ip)
+                        elif j == 7:
+                            insert_db.update_memory2_7_ilo3_info(socket,socket_size,socket_speed,ip)
+                        elif j == 8:
+                            insert_db.update_memory2_8_ilo3_info(socket,socket_size,socket_speed,ip)
+                        elif j == 9:
+                            insert_db.update_memory2_9_ilo3_info(socket,socket_size,socket_speed,ip)
+
+        def storage_info(storage_all, ip):
+            physical_drive_label_1, physical_drive_status_1, physical_drive_capacity_1, physical_drive_model_1, physical_drive_fw_1, physical_drive_confi_1, physical_drive_sn_1 = (None,None,None,None,None,None,None)
+            physical_drive_label_2, physical_drive_status_2, physical_drive_capacity_2, physical_drive_model_2, physical_drive_fw_2, physical_drive_confi_2, physical_drive_sn_2 = (None, None, None, None, None, None, None)
+            physical_drive_label_3, physical_drive_status_3, physical_drive_capacity_3, physical_drive_model_3, physical_drive_fw_3, physical_drive_confi_3, physical_drive_sn_3 = (None, None, None, None, None, None, None)
+            physical_drive_label_4, physical_drive_status_4, physical_drive_capacity_4, physical_drive_model_4, physical_drive_fw_4, physical_drive_confi_4, physical_drive_sn_4 = (None, None, None, None, None, None, None)
+            physical_drive_label_5, physical_drive_status_5, physical_drive_capacity_5, physical_drive_model_5, physical_drive_fw_5, physical_drive_confi_5, physical_drive_sn_5 = (None, None, None, None, None, None, None)
+            physical_drive_label_6, physical_drive_status_6, physical_drive_capacity_6, physical_drive_model_6, physical_drive_fw_6, physical_drive_confi_6, physical_drive_sn_6 = (None, None, None, None, None, None, None)
+            physical_drive_label_7, physical_drive_status_7, physical_drive_capacity_7, physical_drive_model_7, physical_drive_fw_7, physical_drive_confi_7, physical_drive_sn_7 = (None, None, None, None, None, None, None)
+            physical_drive_label_8, physical_drive_status_8, physical_drive_capacity_8, physical_drive_model_8, physical_drive_fw_8, physical_drive_confi_8, physical_drive_sn_8 = (None, None, None, None, None, None, None)
+            physical_drive_label_9, physical_drive_status_9, physical_drive_capacity_9, physical_drive_model_9, physical_drive_fw_9, physical_drive_confi_9, physical_drive_sn_9 = (None, None, None, None, None, None, None)
+            physical_drive_label_10, physical_drive_status_10, physical_drive_capacity_10, physical_drive_model_10, physical_drive_fw_10, physical_drive_confi_10, physical_drive_sn_10 = (None, None, None, None, None, None, None)
+
+            for i in range(1, 13):
+
+                try:
+                    logical_drives_label, logical_drives_status, logical_drives_capacity, logical_drives_fault_tolerance,logical_drive_type = storage_all.next()
+                except StopIteration:
+                    logical_drives_label, logical_drives_status, logical_drives_capacity, logical_drives_fault_tolerance,logical_drive_type = (None, None, None, None,None)
+                for j in range(1, 11):
+                    # try:
+                    #     physical_drive_label, physical_drive_status,  physical_drive_capacity,physical_drive_model, physical_drive_fw,physical_drive_confi, physical_drive_sn= storage_all.next()
+                    # except StopIteration:
+                    #     physical_drive_label, physical_drive_status, physical_drive_model, physical_drive_capacity, physical_drive_sn, physical_drive_confi, physical_drive_fw = (None,None,None,None,None,None,None)
+                    if j == 1:
+                        try:
+                            physical_drive_label_1, physical_drive_status_1, physical_drive_capacity_1, physical_drive_model_1, physical_drive_fw_1, physical_drive_confi_1, physical_drive_sn_1 = storage_all.next()
+                        except StopIteration:
+                            physical_drive_label_1, physical_drive_status_1, physical_drive_capacity_1, physical_drive_model_1, physical_drive_fw_1, physical_drive_confi_1, physical_drive_sn_1 = (
+                                None, None, None, None, None, None, None)
+                        # insert_db.update_storage_1_info(logical_drives_label, logical_drives_status,logical_drive_capacity, logical_drives_fault_tolerance,physical_drive_label, physical_drive_status,  physical_drive_capacity,physical_drive_model, physical_drive_fw,physical_drive_confi, physical_drive_sn)
+                    elif j == 2:
+                        try:
+                            physical_drive_label_2, physical_drive_status_2, physical_drive_capacity_2, physical_drive_model_2, physical_drive_fw_2, physical_drive_confi_2, physical_drive_sn_2 = storage_all.next()
+                        except StopIteration:
+                            physical_drive_label_2, physical_drive_status_2, physical_drive_capacity_2, physical_drive_model_2, physical_drive_fw_2, physical_drive_confi_2, physical_drive_sn_2 = (
+                                None, None, None, None, None, None, None)
+                    elif j == 3:
+                        try:
+                            physical_drive_label_3, physical_drive_status_3, physical_drive_capacity_3, physical_drive_model_3, physical_drive_fw_3, physical_drive_confi_3, physical_drive_sn_3 = storage_all.next()
+                        except StopIteration:
+                            physical_drive_label_3, physical_drive_status_3, physical_drive_capacity_3, physical_drive_model_3, physical_drive_fw_3, physical_drive_confi_3, physical_drive_sn_3 = (
+                                None, None, None, None, None, None, None)
+                    elif j == 4:
+                        try:
+                            physical_drive_label_4, physical_drive_status_4, physical_drive_capacity_4, physical_drive_model_4, physical_drive_fw_4, physical_drive_confi_4, physical_drive_sn_4 = storage_all.next()
+                        except StopIteration:
+                            physical_drive_label_4, physical_drive_status_4, physical_drive_capacity_4, physical_drive_model_4, physical_drive_fw_4, physical_drive_confi_4, physical_drive_sn_4 = (
+                                None, None, None, None, None, None, None)
+
+                    elif j == 5:
+                        try:
+                            physical_drive_label_5, physical_drive_status_5, physical_drive_capacity_5, physical_drive_model_5, physical_drive_fw_5, physical_drive_confi_5, physical_drive_sn_5 = storage_all.next()
+                        except StopIteration:
+                            physical_drive_label_5, physical_drive_status_5, physical_drive_capacity_5, physical_drive_model_5, physical_drive_fw_5, physical_drive_confi_5, physical_drive_sn_5 = (
+                                None, None, None, None, None, None, None)
+
+                    elif j == 6:
+                        try:
+                            physical_drive_label_6, physical_drive_status_6, physical_drive_capacity_6, physical_drive_model_6, physical_drive_fw_6, physical_drive_confi_6, physical_drive_sn_6 = storage_all.next()
+                        except StopIteration:
+                            physical_drive_label_6, physical_drive_status_6, physical_drive_capacity_6, physical_drive_model_6, physical_drive_fw_6, physical_drive_confi_6, physical_drive_sn_6 = (
+                                None, None, None, None, None, None, None)
+                    elif j == 7:
+                        try:
+                            physical_drive_label_7, physical_drive_status_7, physical_drive_capacity_7, physical_drive_model_7, physical_drive_fw_7, physical_drive_confi_7, physical_drive_sn_7 = storage_all.next()
+                        except StopIteration:
+                            physical_drive_label_7, physical_drive_status_7, physical_drive_capacity_7, physical_drive_model_7, physical_drive_fw_7, physical_drive_confi_7, physical_drive_sn_7 = (
+                                None, None, None, None, None, None, None)
+                    elif j == 8:
+                        try:
+                            physical_drive_label_8, physical_drive_status_8, physical_drive_capacity_8, physical_drive_model_8, physical_drive_fw_8, physical_drive_confi_8, physical_drive_sn_8 = storage_all.next()
+                        except StopIteration:
+                            physical_drive_label_8, physical_drive_status_8, physical_drive_capacity_8, physical_drive_model_8, physical_drive_fw_8, physical_drive_confi_8, physical_drive_sn_8 = (
+                                None, None, None, None, None, None, None)
+                    elif j == 9:
+                        try:
+                            physical_drive_label_9, physical_drive_status_9, physical_drive_capacity_9, physical_drive_model_9, physical_drive_fw_9, physical_drive_confi_9, physical_drive_sn_9 = storage_all.next()
+                        except StopIteration:
+                            physical_drive_label_9, physical_drive_status_9, physical_drive_capacity_9, physical_drive_model_9, physical_drive_fw_9, physical_drive_confi_9, physical_drive_sn_9 = (
+                                None, None, None, None, None, None, None)
+                    elif j == 10:
+                        try:
+                            physical_drive_label_10, physical_drive_status_10, physical_drive_capacity_10, physical_drive_model_10, physical_drive_fw_10, physical_drive_confi_10, physical_drive_sn_10 = storage_all.next()
+                        except StopIteration:
+                            physical_drive_label_10, physical_drive_status_10, physical_drive_capacity_10, physical_drive_model_10, physical_drive_fw_10, physical_drive_confi_10, physical_drive_sn_10 = (
+                                None, None, None, None, None, None, None)
+                print(logical_drives_label, logical_drives_status, logical_drives_capacity,logical_drives_fault_tolerance,logical_drive_type,
+                                                    physical_drive_label_1, physical_drive_status_1,physical_drive_capacity_1, physical_drive_model_1,physical_drive_fw_1, physical_drive_confi_1, physical_drive_sn_1,
+                                                    physical_drive_label_2, physical_drive_status_2,physical_drive_capacity_2, physical_drive_model_2,physical_drive_fw_2, physical_drive_confi_2, physical_drive_sn_2,
+                                                    physical_drive_label_3, physical_drive_status_3,physical_drive_capacity_3, physical_drive_model_3,physical_drive_fw_3, physical_drive_confi_3, physical_drive_sn_3,
+                                                    physical_drive_label_4, physical_drive_status_4,physical_drive_capacity_4, physical_drive_model_4,physical_drive_fw_4, physical_drive_confi_4, physical_drive_sn_4,
+                                                    physical_drive_label_5, physical_drive_status_5,physical_drive_capacity_5, physical_drive_model_5,physical_drive_fw_5, physical_drive_confi_5, physical_drive_sn_5,
+                                                    physical_drive_label_6, physical_drive_status_6,physical_drive_capacity_6, physical_drive_model_6,physical_drive_fw_6, physical_drive_confi_6, physical_drive_sn_6,
+                                                    physical_drive_label_7, physical_drive_status_7,physical_drive_capacity_7, physical_drive_model_7,physical_drive_fw_7, physical_drive_confi_7, physical_drive_sn_7,
+                                                    physical_drive_label_8, physical_drive_status_8,physical_drive_capacity_8, physical_drive_model_8,physical_drive_fw_8, physical_drive_confi_8, physical_drive_sn_8,
+                                                    physical_drive_label_9, physical_drive_status_9,physical_drive_capacity_9, physical_drive_model_9,physical_drive_fw_9, physical_drive_confi_9, physical_drive_sn_9,
+                                                    physical_drive_label_10, physical_drive_status_10,physical_drive_capacity_10, physical_drive_model_10,physical_drive_fw_10, physical_drive_confi_10, physical_drive_sn_10,
+                                                    ip)
+                if i == 1:
+                    print(logical_drives_label, logical_drives_status, logical_drives_capacity,logical_drives_fault_tolerance,
+                                                    ip)
+                    insert_db.update_storage_1_info(logical_drives_label, logical_drives_status, logical_drives_capacity,logical_drives_fault_tolerance,
+                                                    ip)
+                elif i == 2:
+                    insert_db.update_storage_2_info(logical_drives_label, logical_drives_status, logical_drives_capacity,
+                                                    logical_drives_fault_tolerance,logical_drive_type,
+                                                    physical_drive_label_1, physical_drive_status_1,
+                                                    physical_drive_capacity_1, physical_drive_model_1,
+                                                    physical_drive_fw_1, physical_drive_confi_1, physical_drive_sn_1,
+                                                    physical_drive_label_2, physical_drive_status_2,
+                                                    physical_drive_capacity_2, physical_drive_model_2,
+                                                    physical_drive_fw_2, physical_drive_confi_2, physical_drive_sn_2,
+                                                    physical_drive_label_3, physical_drive_status_3,
+                                                    physical_drive_capacity_3, physical_drive_model_3,
+                                                    physical_drive_fw_3, physical_drive_confi_3, physical_drive_sn_3,
+                                                    physical_drive_label_4, physical_drive_status_4,
+                                                    physical_drive_capacity_4, physical_drive_model_4,
+                                                    physical_drive_fw_4, physical_drive_confi_4, physical_drive_sn_4,
+                                                    physical_drive_label_5, physical_drive_status_5,
+                                                    physical_drive_capacity_5, physical_drive_model_5,
+                                                    physical_drive_fw_5, physical_drive_confi_5, physical_drive_sn_5,
+                                                    physical_drive_label_6, physical_drive_status_6,
+                                                    physical_drive_capacity_6, physical_drive_model_6,
+                                                    physical_drive_fw_6, physical_drive_confi_6, physical_drive_sn_6,
+                                                    physical_drive_label_7, physical_drive_status_7,
+                                                    physical_drive_capacity_7, physical_drive_model_7,
+                                                    physical_drive_fw_7, physical_drive_confi_7, physical_drive_sn_7,
+                                                    physical_drive_label_8, physical_drive_status_8,
+                                                    physical_drive_capacity_8, physical_drive_model_8,
+                                                    physical_drive_fw_8, physical_drive_confi_8, physical_drive_sn_8,
+                                                    physical_drive_label_9, physical_drive_status_9,
+                                                    physical_drive_capacity_9, physical_drive_model_9,
+                                                    physical_drive_fw_9, physical_drive_confi_9, physical_drive_sn_9,
+                                                    physical_drive_label_10, physical_drive_status_10,
+                                                    physical_drive_capacity_10, physical_drive_model_10,
+                                                    physical_drive_fw_10, physical_drive_confi_10, physical_drive_sn_10,
+                                                    ip)
+                elif i == 3:
+                    insert_db.update_storage_3_info(logical_drives_label, logical_drives_status, logical_drives_capacity,
+                                                    logical_drives_fault_tolerance,logical_drive_type,
+                                                    physical_drive_label_1, physical_drive_status_1,
+                                                    physical_drive_capacity_1, physical_drive_model_1,
+                                                    physical_drive_fw_1, physical_drive_confi_1, physical_drive_sn_1,
+                                                    physical_drive_label_2, physical_drive_status_2,
+                                                    physical_drive_capacity_2, physical_drive_model_2,
+                                                    physical_drive_fw_2, physical_drive_confi_2, physical_drive_sn_2,
+                                                    physical_drive_label_3, physical_drive_status_3,
+                                                    physical_drive_capacity_3, physical_drive_model_3,
+                                                    physical_drive_fw_3, physical_drive_confi_3, physical_drive_sn_3,
+                                                    physical_drive_label_4, physical_drive_status_4,
+                                                    physical_drive_capacity_4, physical_drive_model_4,
+                                                    physical_drive_fw_4, physical_drive_confi_4, physical_drive_sn_4,
+                                                    physical_drive_label_5, physical_drive_status_5,
+                                                    physical_drive_capacity_5, physical_drive_model_5,
+                                                    physical_drive_fw_5, physical_drive_confi_5, physical_drive_sn_5,
+                                                    physical_drive_label_6, physical_drive_status_6,
+                                                    physical_drive_capacity_6, physical_drive_model_6,
+                                                    physical_drive_fw_6, physical_drive_confi_6, physical_drive_sn_6,
+                                                    physical_drive_label_7, physical_drive_status_7,
+                                                    physical_drive_capacity_7, physical_drive_model_7,
+                                                    physical_drive_fw_7, physical_drive_confi_7, physical_drive_sn_7,
+                                                    physical_drive_label_8, physical_drive_status_8,
+                                                    physical_drive_capacity_8, physical_drive_model_8,
+                                                    physical_drive_fw_8, physical_drive_confi_8, physical_drive_sn_8,
+                                                    physical_drive_label_9, physical_drive_status_9,
+                                                    physical_drive_capacity_9, physical_drive_model_9,
+                                                    physical_drive_fw_9, physical_drive_confi_9, physical_drive_sn_9,
+                                                    physical_drive_label_10, physical_drive_status_10,
+                                                    physical_drive_capacity_10, physical_drive_model_10,
+                                                    physical_drive_fw_10, physical_drive_confi_10, physical_drive_sn_10,
+                                                    ip)
+                elif i == 4:
+                    insert_db.update_storage_4_info(logical_drives_label, logical_drives_status, logical_drives_capacity,
+                                                    logical_drives_fault_tolerance,logical_drive_type,
+                                                    physical_drive_label_1, physical_drive_status_1,
+                                                    physical_drive_capacity_1, physical_drive_model_1,
+                                                    physical_drive_fw_1, physical_drive_confi_1, physical_drive_sn_1,
+                                                    physical_drive_label_2, physical_drive_status_2,
+                                                    physical_drive_capacity_2, physical_drive_model_2,
+                                                    physical_drive_fw_2, physical_drive_confi_2, physical_drive_sn_2,
+                                                    physical_drive_label_3, physical_drive_status_3,
+                                                    physical_drive_capacity_3, physical_drive_model_3,
+                                                    physical_drive_fw_3, physical_drive_confi_3, physical_drive_sn_3,
+                                                    physical_drive_label_4, physical_drive_status_4,
+                                                    physical_drive_capacity_4, physical_drive_model_4,
+                                                    physical_drive_fw_4, physical_drive_confi_4, physical_drive_sn_4,
+                                                    physical_drive_label_5, physical_drive_status_5,
+                                                    physical_drive_capacity_5, physical_drive_model_5,
+                                                    physical_drive_fw_5, physical_drive_confi_5, physical_drive_sn_5,
+                                                    physical_drive_label_6, physical_drive_status_6,
+                                                    physical_drive_capacity_6, physical_drive_model_6,
+                                                    physical_drive_fw_6, physical_drive_confi_6, physical_drive_sn_6,
+                                                    physical_drive_label_7, physical_drive_status_7,
+                                                    physical_drive_capacity_7, physical_drive_model_7,
+                                                    physical_drive_fw_7, physical_drive_confi_7, physical_drive_sn_7,
+                                                    physical_drive_label_8, physical_drive_status_8,
+                                                    physical_drive_capacity_8, physical_drive_model_8,
+                                                    physical_drive_fw_8, physical_drive_confi_8, physical_drive_sn_8,
+                                                    physical_drive_label_9, physical_drive_status_9,
+                                                    physical_drive_capacity_9, physical_drive_model_9,
+                                                    physical_drive_fw_9, physical_drive_confi_9, physical_drive_sn_9,
+                                                    physical_drive_label_10, physical_drive_status_10,
+                                                    physical_drive_capacity_10, physical_drive_model_10,
+                                                    physical_drive_fw_10, physical_drive_confi_10, physical_drive_sn_10,
+                                                    ip)
+                elif i == 5:
+                    insert_db.update_storage_5_info(logical_drives_label, logical_drives_status, logical_drives_capacity,
+                                                    logical_drives_fault_tolerance,logical_drive_type,
+                                                    physical_drive_label_1, physical_drive_status_1,
+                                                    physical_drive_capacity_1, physical_drive_model_1,
+                                                    physical_drive_fw_1, physical_drive_confi_1, physical_drive_sn_1,
+                                                    physical_drive_label_2, physical_drive_status_2,
+                                                    physical_drive_capacity_2, physical_drive_model_2,
+                                                    physical_drive_fw_2, physical_drive_confi_2, physical_drive_sn_2,
+                                                    physical_drive_label_3, physical_drive_status_3,
+                                                    physical_drive_capacity_3, physical_drive_model_3,
+                                                    physical_drive_fw_3, physical_drive_confi_3, physical_drive_sn_3,
+                                                    physical_drive_label_4, physical_drive_status_4,
+                                                    physical_drive_capacity_4, physical_drive_model_4,
+                                                    physical_drive_fw_4, physical_drive_confi_4, physical_drive_sn_4,
+                                                    physical_drive_label_5, physical_drive_status_5,
+                                                    physical_drive_capacity_5, physical_drive_model_5,
+                                                    physical_drive_fw_5, physical_drive_confi_5, physical_drive_sn_5,
+                                                    physical_drive_label_6, physical_drive_status_6,
+                                                    physical_drive_capacity_6, physical_drive_model_6,
+                                                    physical_drive_fw_6, physical_drive_confi_6, physical_drive_sn_6,
+                                                    physical_drive_label_7, physical_drive_status_7,
+                                                    physical_drive_capacity_7, physical_drive_model_7,
+                                                    physical_drive_fw_7, physical_drive_confi_7, physical_drive_sn_7,
+                                                    physical_drive_label_8, physical_drive_status_8,
+                                                    physical_drive_capacity_8, physical_drive_model_8,
+                                                    physical_drive_fw_8, physical_drive_confi_8, physical_drive_sn_8,
+                                                    physical_drive_label_9, physical_drive_status_9,
+                                                    physical_drive_capacity_9, physical_drive_model_9,
+                                                    physical_drive_fw_9, physical_drive_confi_9, physical_drive_sn_9,
+                                                    physical_drive_label_10, physical_drive_status_10,
+                                                    physical_drive_capacity_10, physical_drive_model_10,
+                                                    physical_drive_fw_10, physical_drive_confi_10, physical_drive_sn_10,
+                                                    ip)
+                elif i == 6:
+                    insert_db.update_storage_6_info(logical_drives_label, logical_drives_status, logical_drives_capacity,
+                                                    logical_drives_fault_tolerance,logical_drive_type,
+                                                    physical_drive_label_1, physical_drive_status_1,
+                                                    physical_drive_capacity_1, physical_drive_model_1,
+                                                    physical_drive_fw_1, physical_drive_confi_1, physical_drive_sn_1,
+                                                    physical_drive_label_2, physical_drive_status_2,
+                                                    physical_drive_capacity_2, physical_drive_model_2,
+                                                    physical_drive_fw_2, physical_drive_confi_2, physical_drive_sn_2,
+                                                    physical_drive_label_3, physical_drive_status_3,
+                                                    physical_drive_capacity_3, physical_drive_model_3,
+                                                    physical_drive_fw_3, physical_drive_confi_3, physical_drive_sn_3,
+                                                    physical_drive_label_4, physical_drive_status_4,
+                                                    physical_drive_capacity_4, physical_drive_model_4,
+                                                    physical_drive_fw_4, physical_drive_confi_4, physical_drive_sn_4,
+                                                    physical_drive_label_5, physical_drive_status_5,
+                                                    physical_drive_capacity_5, physical_drive_model_5,
+                                                    physical_drive_fw_5, physical_drive_confi_5, physical_drive_sn_5,
+                                                    physical_drive_label_6, physical_drive_status_6,
+                                                    physical_drive_capacity_6, physical_drive_model_6,
+                                                    physical_drive_fw_6, physical_drive_confi_6, physical_drive_sn_6,
+                                                    physical_drive_label_7, physical_drive_status_7,
+                                                    physical_drive_capacity_7, physical_drive_model_7,
+                                                    physical_drive_fw_7, physical_drive_confi_7, physical_drive_sn_7,
+                                                    physical_drive_label_8, physical_drive_status_8,
+                                                    physical_drive_capacity_8, physical_drive_model_8,
+                                                    physical_drive_fw_8, physical_drive_confi_8, physical_drive_sn_8,
+                                                    physical_drive_label_9, physical_drive_status_9,
+                                                    physical_drive_capacity_9, physical_drive_model_9,
+                                                    physical_drive_fw_9, physical_drive_confi_9, physical_drive_sn_9,
+                                                    physical_drive_label_10, physical_drive_status_10,
+                                                    physical_drive_capacity_10, physical_drive_model_10,
+                                                    physical_drive_fw_10, physical_drive_confi_10, physical_drive_sn_10,
+                                                    ip)
+                elif i == 7:
+                    insert_db.update_storage_7_info(logical_drives_label, logical_drives_status, logical_drives_capacity,
+                                                    logical_drives_fault_tolerance,logical_drive_type,
+                                                    physical_drive_label_1, physical_drive_status_1,
+                                                    physical_drive_capacity_1, physical_drive_model_1,
+                                                    physical_drive_fw_1, physical_drive_confi_1, physical_drive_sn_1,
+                                                    physical_drive_label_2, physical_drive_status_2,
+                                                    physical_drive_capacity_2, physical_drive_model_2,
+                                                    physical_drive_fw_2, physical_drive_confi_2, physical_drive_sn_2,
+                                                    physical_drive_label_3, physical_drive_status_3,
+                                                    physical_drive_capacity_3, physical_drive_model_3,
+                                                    physical_drive_fw_3, physical_drive_confi_3, physical_drive_sn_3,
+                                                    physical_drive_label_4, physical_drive_status_4,
+                                                    physical_drive_capacity_4, physical_drive_model_4,
+                                                    physical_drive_fw_4, physical_drive_confi_4, physical_drive_sn_4,
+                                                    physical_drive_label_5, physical_drive_status_5,
+                                                    physical_drive_capacity_5, physical_drive_model_5,
+                                                    physical_drive_fw_5, physical_drive_confi_5, physical_drive_sn_5,
+                                                    physical_drive_label_6, physical_drive_status_6,
+                                                    physical_drive_capacity_6, physical_drive_model_6,
+                                                    physical_drive_fw_6, physical_drive_confi_6, physical_drive_sn_6,
+                                                    physical_drive_label_7, physical_drive_status_7,
+                                                    physical_drive_capacity_7, physical_drive_model_7,
+                                                    physical_drive_fw_7, physical_drive_confi_7, physical_drive_sn_7,
+                                                    physical_drive_label_8, physical_drive_status_8,
+                                                    physical_drive_capacity_8, physical_drive_model_8,
+                                                    physical_drive_fw_8, physical_drive_confi_8, physical_drive_sn_8,
+                                                    physical_drive_label_9, physical_drive_status_9,
+                                                    physical_drive_capacity_9, physical_drive_model_9,
+                                                    physical_drive_fw_9, physical_drive_confi_9, physical_drive_sn_9,
+                                                    physical_drive_label_10, physical_drive_status_10,
+                                                    physical_drive_capacity_10, physical_drive_model_10,
+                                                    physical_drive_fw_10, physical_drive_confi_10, physical_drive_sn_10,
+                                                    ip)
+                elif i == 8:
+                    insert_db.update_storage_8_info(logical_drives_label, logical_drives_status, logical_drives_capacity,
+                                                    logical_drives_fault_tolerance,logical_drive_type,
+                                                    physical_drive_label_1, physical_drive_status_1,
+                                                    physical_drive_capacity_1, physical_drive_model_1,
+                                                    physical_drive_fw_1, physical_drive_confi_1, physical_drive_sn_1,
+                                                    physical_drive_label_2, physical_drive_status_2,
+                                                    physical_drive_capacity_2, physical_drive_model_2,
+                                                    physical_drive_fw_2, physical_drive_confi_2, physical_drive_sn_2,
+                                                    physical_drive_label_3, physical_drive_status_3,
+                                                    physical_drive_capacity_3, physical_drive_model_3,
+                                                    physical_drive_fw_3, physical_drive_confi_3, physical_drive_sn_3,
+                                                    physical_drive_label_4, physical_drive_status_4,
+                                                    physical_drive_capacity_4, physical_drive_model_4,
+                                                    physical_drive_fw_4, physical_drive_confi_4, physical_drive_sn_4,
+                                                    physical_drive_label_5, physical_drive_status_5,
+                                                    physical_drive_capacity_5, physical_drive_model_5,
+                                                    physical_drive_fw_5, physical_drive_confi_5, physical_drive_sn_5,
+                                                    physical_drive_label_6, physical_drive_status_6,
+                                                    physical_drive_capacity_6, physical_drive_model_6,
+                                                    physical_drive_fw_6, physical_drive_confi_6, physical_drive_sn_6,
+                                                    physical_drive_label_7, physical_drive_status_7,
+                                                    physical_drive_capacity_7, physical_drive_model_7,
+                                                    physical_drive_fw_7, physical_drive_confi_7, physical_drive_sn_7,
+                                                    physical_drive_label_8, physical_drive_status_8,
+                                                    physical_drive_capacity_8, physical_drive_model_8,
+                                                    physical_drive_fw_8, physical_drive_confi_8, physical_drive_sn_8,
+                                                    physical_drive_label_9, physical_drive_status_9,
+                                                    physical_drive_capacity_9, physical_drive_model_9,
+                                                    physical_drive_fw_9, physical_drive_confi_9, physical_drive_sn_9,
+                                                    physical_drive_label_10, physical_drive_status_10,
+                                                    physical_drive_capacity_10, physical_drive_model_10,
+                                                    physical_drive_fw_10, physical_drive_confi_10, physical_drive_sn_10,
+                                                    ip)
+
+                elif i == 9:
+                    insert_db.update_storage_1_info(logical_drives_label, logical_drives_status, logical_drives_capacity,
+                                                    logical_drives_fault_tolerance,logical_drive_type,
+                                                    physical_drive_label_1, physical_drive_status_1,
+                                                    physical_drive_capacity_1, physical_drive_model_1,
+                                                    physical_drive_fw_1, physical_drive_confi_1, physical_drive_sn_1,
+                                                    physical_drive_label_2, physical_drive_status_2,
+                                                    physical_drive_capacity_2, physical_drive_model_2,
+                                                    physical_drive_fw_2, physical_drive_confi_2, physical_drive_sn_2,
+                                                    physical_drive_label_3, physical_drive_status_3,
+                                                    physical_drive_capacity_3, physical_drive_model_3,
+                                                    physical_drive_fw_3, physical_drive_confi_3, physical_drive_sn_3,
+                                                    physical_drive_label_4, physical_drive_status_4,
+                                                    physical_drive_capacity_4, physical_drive_model_4,
+                                                    physical_drive_fw_4, physical_drive_confi_4, physical_drive_sn_4,
+                                                    physical_drive_label_5, physical_drive_status_5,
+                                                    physical_drive_capacity_5, physical_drive_model_5,
+                                                    physical_drive_fw_5, physical_drive_confi_5, physical_drive_sn_5,
+                                                    physical_drive_label_6, physical_drive_status_6,
+                                                    physical_drive_capacity_6, physical_drive_model_6,
+                                                    physical_drive_fw_6, physical_drive_confi_6, physical_drive_sn_6,
+                                                    physical_drive_label_7, physical_drive_status_7,
+                                                    physical_drive_capacity_7, physical_drive_model_7,
+                                                    physical_drive_fw_7, physical_drive_confi_7, physical_drive_sn_7,
+                                                    physical_drive_label_8, physical_drive_status_8,
+                                                    physical_drive_capacity_8, physical_drive_model_8,
+                                                    physical_drive_fw_8, physical_drive_confi_8, physical_drive_sn_8,
+                                                    physical_drive_label_9, physical_drive_status_9,
+                                                    physical_drive_capacity_9, physical_drive_model_9,
+                                                    physical_drive_fw_9, physical_drive_confi_9, physical_drive_sn_9,
+                                                    physical_drive_label_10, physical_drive_status_10,
+                                                    physical_drive_capacity_10, physical_drive_model_10,
+                                                    physical_drive_fw_10, physical_drive_confi_10, physical_drive_sn_10,
+                                                    ip)
+                elif i == 10:
+                    insert_db.update_storage_10_info(logical_drives_label, logical_drives_status, logical_drives_capacity,
+                                                    logical_drives_fault_tolerance,logical_drive_type,
+                                                    physical_drive_label_1, physical_drive_status_1,
+                                                    physical_drive_capacity_1, physical_drive_model_1,
+                                                    physical_drive_fw_1, physical_drive_confi_1, physical_drive_sn_1,
+                                                    physical_drive_label_2, physical_drive_status_2,
+                                                    physical_drive_capacity_2, physical_drive_model_2,
+                                                    physical_drive_fw_2, physical_drive_confi_2, physical_drive_sn_2,
+                                                    physical_drive_label_3, physical_drive_status_3,
+                                                    physical_drive_capacity_3, physical_drive_model_3,
+                                                    physical_drive_fw_3, physical_drive_confi_3, physical_drive_sn_3,
+                                                    physical_drive_label_4, physical_drive_status_4,
+                                                    physical_drive_capacity_4, physical_drive_model_4,
+                                                    physical_drive_fw_4, physical_drive_confi_4, physical_drive_sn_4,
+                                                    physical_drive_label_5, physical_drive_status_5,
+                                                    physical_drive_capacity_5, physical_drive_model_5,
+                                                    physical_drive_fw_5, physical_drive_confi_5, physical_drive_sn_5,
+                                                    physical_drive_label_6, physical_drive_status_6,
+                                                    physical_drive_capacity_6, physical_drive_model_6,
+                                                    physical_drive_fw_6, physical_drive_confi_6, physical_drive_sn_6,
+                                                    physical_drive_label_7, physical_drive_status_7,
+                                                    physical_drive_capacity_7, physical_drive_model_7,
+                                                    physical_drive_fw_7, physical_drive_confi_7, physical_drive_sn_7,
+                                                    physical_drive_label_8, physical_drive_status_8,
+                                                    physical_drive_capacity_8, physical_drive_model_8,
+                                                    physical_drive_fw_8, physical_drive_confi_8, physical_drive_sn_8,
+                                                    physical_drive_label_9, physical_drive_status_9,
+                                                    physical_drive_capacity_9, physical_drive_model_9,
+                                                    physical_drive_fw_9, physical_drive_confi_9, physical_drive_sn_9,
+                                                    physical_drive_label_10, physical_drive_status_10,
+                                                    physical_drive_capacity_10, physical_drive_model_10,
+                                                    physical_drive_fw_10, physical_drive_confi_10, physical_drive_sn_10,
+                                                    ip)
+                elif i == 11:
+                    insert_db.update_storage_11_info(logical_drives_label, logical_drives_status, logical_drives_capacity,
+                                                    logical_drives_fault_tolerance,logical_drive_type,
+                                                    physical_drive_label_1, physical_drive_status_1,
+                                                    physical_drive_capacity_1, physical_drive_model_1,
+                                                    physical_drive_fw_1, physical_drive_confi_1, physical_drive_sn_1,
+                                                    physical_drive_label_2, physical_drive_status_2,
+                                                    physical_drive_capacity_2, physical_drive_model_2,
+                                                    physical_drive_fw_2, physical_drive_confi_2, physical_drive_sn_2,
+                                                    physical_drive_label_3, physical_drive_status_3,
+                                                    physical_drive_capacity_3, physical_drive_model_3,
+                                                    physical_drive_fw_3, physical_drive_confi_3, physical_drive_sn_3,
+                                                    physical_drive_label_4, physical_drive_status_4,
+                                                    physical_drive_capacity_4, physical_drive_model_4,
+                                                    physical_drive_fw_4, physical_drive_confi_4, physical_drive_sn_4,
+                                                    physical_drive_label_5, physical_drive_status_5,
+                                                    physical_drive_capacity_5, physical_drive_model_5,
+                                                    physical_drive_fw_5, physical_drive_confi_5, physical_drive_sn_5,
+                                                    physical_drive_label_6, physical_drive_status_6,
+                                                    physical_drive_capacity_6, physical_drive_model_6,
+                                                    physical_drive_fw_6, physical_drive_confi_6, physical_drive_sn_6,
+                                                    physical_drive_label_7, physical_drive_status_7,
+                                                    physical_drive_capacity_7, physical_drive_model_7,
+                                                    physical_drive_fw_7, physical_drive_confi_7, physical_drive_sn_7,
+                                                    physical_drive_label_8, physical_drive_status_8,
+                                                    physical_drive_capacity_8, physical_drive_model_8,
+                                                    physical_drive_fw_8, physical_drive_confi_8, physical_drive_sn_8,
+                                                    physical_drive_label_9, physical_drive_status_9,
+                                                    physical_drive_capacity_9, physical_drive_model_9,
+                                                    physical_drive_fw_9, physical_drive_confi_9, physical_drive_sn_9,
+                                                    physical_drive_label_10, physical_drive_status_10,
+                                                    physical_drive_capacity_10, physical_drive_model_10,
+                                                    physical_drive_fw_10, physical_drive_confi_10, physical_drive_sn_10,
+                                                    ip)
+                elif i == 12:
+                    insert_db.update_storage_12_info(logical_drives_label, logical_drives_status, logical_drives_capacity,
+                                                    logical_drives_fault_tolerance,logical_drive_type,
+                                                    physical_drive_label_1, physical_drive_status_1,
+                                                    physical_drive_capacity_1, physical_drive_model_1,
+                                                    physical_drive_fw_1, physical_drive_confi_1, physical_drive_sn_1,
+                                                    physical_drive_label_2, physical_drive_status_2,
+                                                    physical_drive_capacity_2, physical_drive_model_2,
+                                                    physical_drive_fw_2, physical_drive_confi_2, physical_drive_sn_2,
+                                                    physical_drive_label_3, physical_drive_status_3,
+                                                    physical_drive_capacity_3, physical_drive_model_3,
+                                                    physical_drive_fw_3, physical_drive_confi_3, physical_drive_sn_3,
+                                                    physical_drive_label_4, physical_drive_status_4,
+                                                    physical_drive_capacity_4, physical_drive_model_4,
+                                                    physical_drive_fw_4, physical_drive_confi_4, physical_drive_sn_4,
+                                                    physical_drive_label_5, physical_drive_status_5,
+                                                    physical_drive_capacity_5, physical_drive_model_5,
+                                                    physical_drive_fw_5, physical_drive_confi_5, physical_drive_sn_5,
+                                                    physical_drive_label_6, physical_drive_status_6,
+                                                    physical_drive_capacity_6, physical_drive_model_6,
+                                                    physical_drive_fw_6, physical_drive_confi_6, physical_drive_sn_6,
+                                                    physical_drive_label_7, physical_drive_status_7,
+                                                    physical_drive_capacity_7, physical_drive_model_7,
+                                                    physical_drive_fw_7, physical_drive_confi_7, physical_drive_sn_7,
+                                                    physical_drive_label_8, physical_drive_status_8,
+                                                    physical_drive_capacity_8, physical_drive_model_8,
+                                                    physical_drive_fw_8, physical_drive_confi_8, physical_drive_sn_8,
+                                                    physical_drive_label_9, physical_drive_status_9,
+                                                    physical_drive_capacity_9, physical_drive_model_9,
+                                                    physical_drive_fw_9, physical_drive_confi_9, physical_drive_sn_9,
+                                                    physical_drive_label_10, physical_drive_status_10,
+                                                    physical_drive_capacity_10, physical_drive_model_10,
+                                                    physical_drive_fw_10, physical_drive_confi_10, physical_drive_sn_10,
+                                                    ip)
+
+        if ilo_model != 'iLO3':
+            #memory_all = analyse_json.get_memory_info(health_info)
+            #memory_info(memory_all,ip)
+            storage_all = analyse_json.get_storage_info(health_info)
+            storage_info(storage_all,ip)
+
+        # else:
+        #     memory_all = analyse_json.get_memory_info_ilo3(health_info)
+        #     memory_info_ilo3(memory_all,ip)
+        
+
+
+
+
+
+            
 
 
 if __name__ == '__main__':

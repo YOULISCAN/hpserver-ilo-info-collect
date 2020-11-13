@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
-import cx_Oracle
 
-connection = cx_Oracle.connect('gl_sm/gl_sm@10.195.227.244/db244d')
+def test1():
+    for i in range(0,10):
+        yield (i)
+        for j in range(11,20):
+            yield (j)
 
-sql = 'select * from ITIM_AUTO.ITIM_ASSETS'
+all = test1()
+while True:
 
-with connection.cursor() as cursor:
-    for row in cursor.execute(sql):
-        print(row)
+    info = all.next()
+    print(info)
