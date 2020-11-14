@@ -7,7 +7,13 @@ def test1():
             yield (j)
 
 all = test1()
-while True:
 
+try:
     info = all.next()
-    print(info)
+except:
+    pass
+try:
+    info1 = all.next()
+except:
+    pass
+print(all.next())

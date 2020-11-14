@@ -20,31 +20,19 @@ def get_storage_info_ilo3(all_info):
 def get_storage_info(all_info):
     storage = all_info['storage']
     Controller_on_System_Board = storage['Controller on System Board']
-    # storage_controller = {
-    #                       'controller_status': Controller_on_System_Board['controller_status'],
-    #                       'cache_module_memory': Controller_on_System_Board['cache_module_memory'],
-    #                       'cache_module_serial_num': Controller_on_System_Board['cache_module_cache_module'],
-    #                       'cache_module_status': Controller_on_System_Board['cache_module_status'],
-    #                       'encryption_csp_status': Controller_on_System_Board['encryption_csp_status'],
-    #                       'encryption_self_test_status': Controller_on_System_Board['encryption_self_test_status'],
-    #                       'encryption_status': Controller_on_System_Board['encryption_status'],
-    #                       'controller_fw_version': Controller_on_System_Board['fw_version'],
-    #                       'controller_model': Controller_on_System_Board['model'],
-    #                      }
-    # storage_controller_drive = Controller_on_System_Board['drive_enclosures']
-    # storage_controller_drive_dict= {}
-    # for i in range(0,len(storage_controller_drive)):
-    #     storage_controller_drive_dict.update(storage_controller_drive[i])
-
- #   print("Controller on System Board_status:{}; controller_status:{}; cache_module_memory:{};".format())
- #    print('drive_enclosures:')
- #    for i in Controller_on_System_Board['drive_enclosures']:
- #        print("     {}".format(i))
     logical_drives = Controller_on_System_Board['logical_drives']
     for i in range(0,len(logical_drives)):
-        # label status capacity tolerance TYPE physical_drive
-        yield(logical_drives[i]['label'],logical_drives[i]['status'],logical_drives[i]['capacity'],logical_drives[i]['fault_tolerance'],logical_drives[i]['logical_drive_type'])
+        try:
+            print(logical_drives[i]['label'],logical_drives[i]['status'],logical_drives[i]['capacity'],logical_drives[i]['fault_tolerance'],logical_drives[i]['logical_drive_type'])
+        except :
+            logical_drives[i]['logical_drive_type']=None
+        finally:
+            yield(logical_drives[i]['label'],logical_drives[i]['status'],logical_drives[i]['capacity'],logical_drives[i]['fault_tolerance'],logical_drives[i]['logical_drive_type'],len(logical_drives[i]['physical_drives']))
         for j in range(0,len(logical_drives[i]['physical_drives'])):
+            # print(logical_drives[i]['physical_drives'][j]['label'],logical_drives[i]['physical_drives'][j]['status'],
+            #       logical_drives[i]['physical_drives'][j]['capacity'],logical_drives[i]['physical_drives'][j]['model'],
+            #       logical_drives[i]['physical_drives'][j]['fw_version'],logical_drives[i]['physical_drives'][j]['drive_configuration'],
+            #       logical_drives[i]['physical_drives'][j]['serial_number'])
             yield(logical_drives[i]['physical_drives'][j]['label'],logical_drives[i]['physical_drives'][j]['status'],
                   logical_drives[i]['physical_drives'][j]['capacity'],logical_drives[i]['physical_drives'][j]['model'],
                   logical_drives[i]['physical_drives'][j]['fw_version'],logical_drives[i]['physical_drives'][j]['drive_configuration'],

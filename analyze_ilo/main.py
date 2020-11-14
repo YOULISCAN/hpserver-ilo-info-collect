@@ -220,6 +220,7 @@ def test():
                             insert_db.update_memory2_9_ilo3_info(socket,socket_size,socket_speed,ip)
 
         def storage_info(storage_all, ip):
+            number = 0
             physical_drive_label_1, physical_drive_status_1, physical_drive_capacity_1, physical_drive_model_1, physical_drive_fw_1, physical_drive_confi_1, physical_drive_sn_1 = (None,None,None,None,None,None,None)
             physical_drive_label_2, physical_drive_status_2, physical_drive_capacity_2, physical_drive_model_2, physical_drive_fw_2, physical_drive_confi_2, physical_drive_sn_2 = (None, None, None, None, None, None, None)
             physical_drive_label_3, physical_drive_status_3, physical_drive_capacity_3, physical_drive_model_3, physical_drive_fw_3, physical_drive_confi_3, physical_drive_sn_3 = (None, None, None, None, None, None, None)
@@ -230,14 +231,20 @@ def test():
             physical_drive_label_8, physical_drive_status_8, physical_drive_capacity_8, physical_drive_model_8, physical_drive_fw_8, physical_drive_confi_8, physical_drive_sn_8 = (None, None, None, None, None, None, None)
             physical_drive_label_9, physical_drive_status_9, physical_drive_capacity_9, physical_drive_model_9, physical_drive_fw_9, physical_drive_confi_9, physical_drive_sn_9 = (None, None, None, None, None, None, None)
             physical_drive_label_10, physical_drive_status_10, physical_drive_capacity_10, physical_drive_model_10, physical_drive_fw_10, physical_drive_confi_10, physical_drive_sn_10 = (None, None, None, None, None, None, None)
-
+            physical_drive_label_11, physical_drive_status_11, physical_drive_capacity_11, physical_drive_model_11, physical_drive_fw_11, physical_drive_confi_11, physical_drive_sn_11 = (
+            None, None, None, None, None, None, None)
+            physical_drive_label_12, physical_drive_status_12, physical_drive_capacity_12, physical_drive_model_12, physical_drive_fw_12, physical_drive_confi_12, physical_drive_sn_12 = (
+            None, None, None, None, None, None, None)
+            physical_drive_label_13, physical_drive_status_13, physical_drive_capacity_13, physical_drive_model_13, physical_drive_fw_13, physical_drive_confi_13, physical_drive_sn_13 = (
+            None, None, None, None, None, None, None)
+            physical_drive_label_14, physical_drive_status_14, physical_drive_capacity_14, physical_drive_model_14, physical_drive_fw_14, physical_drive_confi_14, physical_drive_sn_14 = (
+            None, None, None, None, None, None, None)
             for i in range(1, 13):
-
                 try:
-                    logical_drives_label, logical_drives_status, logical_drives_capacity, logical_drives_fault_tolerance,logical_drive_type = storage_all.next()
+                    logical_drives_label, logical_drives_status, logical_drives_capacity, logical_drives_fault_tolerance,logical_drive_type,number = storage_all.next()
                 except StopIteration:
                     logical_drives_label, logical_drives_status, logical_drives_capacity, logical_drives_fault_tolerance,logical_drive_type = (None, None, None, None,None)
-                for j in range(1, 11):
+                for j in range(1, number + 1):
                     # try:
                     #     physical_drive_label, physical_drive_status,  physical_drive_capacity,physical_drive_model, physical_drive_fw,physical_drive_confi, physical_drive_sn= storage_all.next()
                     # except StopIteration:
@@ -305,6 +312,30 @@ def test():
                         except StopIteration:
                             physical_drive_label_10, physical_drive_status_10, physical_drive_capacity_10, physical_drive_model_10, physical_drive_fw_10, physical_drive_confi_10, physical_drive_sn_10 = (
                                 None, None, None, None, None, None, None)
+                    elif j == 11:
+                        try:
+                            physical_drive_label_11, physical_drive_status_11, physical_drive_capacity_11, physical_drive_model_11, physical_drive_fw_11, physical_drive_confi_11, physical_drive_sn_11 = storage_all.next()
+                        except StopIteration:
+                            physical_drive_label_11, physical_drive_status_11, physical_drive_capacity_11, physical_drive_model_11, physical_drive_fw_11, physical_drive_confi_11, physical_drive_sn_11 = (
+                                None, None, None, None, None, None, None)
+                    elif j == 12:
+                        try:
+                            physical_drive_label_12, physical_drive_status_12, physical_drive_capacity_12, physical_drive_model_12, physical_drive_fw_12, physical_drive_confi_12, physical_drive_sn_12 = storage_all.next()
+                        except StopIteration:
+                            physical_drive_label_12, physical_drive_status_12, physical_drive_capacity_12, physical_drive_model_12, physical_drive_fw_12, physical_drive_confi_12, physical_drive_sn_12 = (
+                                None, None, None, None, None, None, None)
+                    elif j == 13:
+                        try:
+                            physical_drive_label_13, physical_drive_status_13, physical_drive_capacity_13, physical_drive_model_13, physical_drive_fw_13, physical_drive_confi_13, physical_drive_sn_13 = storage_all.next()
+                        except StopIteration:
+                            physical_drive_label_13, physical_drive_status_13, physical_drive_capacity_13, physical_drive_model_13, physical_drive_fw_13, physical_drive_confi_13, physical_drive_sn_13 = (
+                                None, None, None, None, None, None, None)
+                    elif j == 14:
+                        try:
+                            physical_drive_label_14, physical_drive_status_14, physical_drive_capacity_14, physical_drive_model_14, physical_drive_fw_14, physical_drive_confi_14, physical_drive_sn_14 = storage_all.next()
+                        except StopIteration:
+                            physical_drive_label_14, physical_drive_status_14, physical_drive_capacity_14, physical_drive_model_14, physical_drive_fw_14, physical_drive_confi_14, physical_drive_sn_14 = (
+                                None, None, None, None, None, None, None)
                 print(logical_drives_label, logical_drives_status, logical_drives_capacity,logical_drives_fault_tolerance,logical_drive_type,
                                                     physical_drive_label_1, physical_drive_status_1,physical_drive_capacity_1, physical_drive_model_1,physical_drive_fw_1, physical_drive_confi_1, physical_drive_sn_1,
                                                     physical_drive_label_2, physical_drive_status_2,physical_drive_capacity_2, physical_drive_model_2,physical_drive_fw_2, physical_drive_confi_2, physical_drive_sn_2,
@@ -318,13 +349,52 @@ def test():
                                                     physical_drive_label_10, physical_drive_status_10,physical_drive_capacity_10, physical_drive_model_10,physical_drive_fw_10, physical_drive_confi_10, physical_drive_sn_10,
                                                     ip)
                 if i == 1:
-                    print(logical_drives_label, logical_drives_status, logical_drives_capacity,logical_drives_fault_tolerance,
-                                                    ip)
-                    insert_db.update_storage_1_info(logical_drives_label, logical_drives_status, logical_drives_capacity,logical_drives_fault_tolerance,
+                    insert_db.update_storage_1_info(logical_drives_label, logical_drives_status, logical_drives_capacity,logical_drives_fault_tolerance,logical_drive_type,
+                                                    physical_drive_label_1, physical_drive_status_1,
+                                                    physical_drive_capacity_1, physical_drive_model_1,
+                                                    physical_drive_fw_1, physical_drive_confi_1, physical_drive_sn_1,
+                                                    physical_drive_label_2, physical_drive_status_2,
+                                                    physical_drive_capacity_2, physical_drive_model_2,
+                                                    physical_drive_fw_2, physical_drive_confi_2, physical_drive_sn_2,
+                                                    physical_drive_label_3, physical_drive_status_3,
+                                                    physical_drive_capacity_3, physical_drive_model_3,
+                                                    physical_drive_fw_3, physical_drive_confi_3, physical_drive_sn_3,
+                                                    physical_drive_label_4, physical_drive_status_4,
+                                                    physical_drive_capacity_4, physical_drive_model_4,
+                                                    physical_drive_fw_4, physical_drive_confi_4, physical_drive_sn_4,
+                                                    physical_drive_label_5, physical_drive_status_5,
+                                                    physical_drive_capacity_5, physical_drive_model_5,
+                                                    physical_drive_fw_5, physical_drive_confi_5, physical_drive_sn_5,
+                                                    physical_drive_label_6, physical_drive_status_6,
+                                                    physical_drive_capacity_6, physical_drive_model_6,
+                                                    physical_drive_fw_6, physical_drive_confi_6, physical_drive_sn_6,
+                                                    physical_drive_label_7, physical_drive_status_7,
+                                                    physical_drive_capacity_7, physical_drive_model_7,
+                                                    physical_drive_fw_7, physical_drive_confi_7, physical_drive_sn_7,
+                                                    physical_drive_label_8, physical_drive_status_8,
+                                                    physical_drive_capacity_8, physical_drive_model_8,
+                                                    physical_drive_fw_8, physical_drive_confi_8, physical_drive_sn_8,
+                                                    physical_drive_label_9, physical_drive_status_9,
+                                                    physical_drive_capacity_9, physical_drive_model_9,
+                                                    physical_drive_fw_9, physical_drive_confi_9, physical_drive_sn_9,
+                                                    physical_drive_label_10, physical_drive_status_10,
+                                                    physical_drive_capacity_10, physical_drive_model_10,
+                                                    physical_drive_fw_10, physical_drive_confi_10, physical_drive_sn_10,
+                                                    physical_drive_label_11, physical_drive_status_11,
+                                                    physical_drive_capacity_11, physical_drive_model_11,
+                                                    physical_drive_fw_11, physical_drive_confi_11, physical_drive_sn_11,
+                                                    physical_drive_label_12, physical_drive_status_12,
+                                                    physical_drive_capacity_12, physical_drive_model_12,
+                                                    physical_drive_fw_12, physical_drive_confi_12, physical_drive_sn_12,
+                                                    physical_drive_label_13, physical_drive_status_13,
+                                                    physical_drive_capacity_13, physical_drive_model_13,
+                                                    physical_drive_fw_13, physical_drive_confi_13, physical_drive_sn_13,
+                                                    physical_drive_label_14, physical_drive_status_14,
+                                                    physical_drive_capacity_14, physical_drive_model_14,
+                                                    physical_drive_fw_14, physical_drive_confi_14, physical_drive_sn_14,
                                                     ip)
                 elif i == 2:
-                    insert_db.update_storage_2_info(logical_drives_label, logical_drives_status, logical_drives_capacity,
-                                                    logical_drives_fault_tolerance,logical_drive_type,
+                    insert_db.update_storage_2_info(logical_drives_label, logical_drives_status, logical_drives_capacity,logical_drives_fault_tolerance,logical_drive_type,
                                                     physical_drive_label_1, physical_drive_status_1,
                                                     physical_drive_capacity_1, physical_drive_model_1,
                                                     physical_drive_fw_1, physical_drive_confi_1, physical_drive_sn_1,
@@ -357,8 +427,7 @@ def test():
                                                     physical_drive_fw_10, physical_drive_confi_10, physical_drive_sn_10,
                                                     ip)
                 elif i == 3:
-                    insert_db.update_storage_3_info(logical_drives_label, logical_drives_status, logical_drives_capacity,
-                                                    logical_drives_fault_tolerance,logical_drive_type,
+                    insert_db.update_storage_3_info(logical_drives_label, logical_drives_status, logical_drives_capacity,logical_drives_fault_tolerance,logical_drive_type,
                                                     physical_drive_label_1, physical_drive_status_1,
                                                     physical_drive_capacity_1, physical_drive_model_1,
                                                     physical_drive_fw_1, physical_drive_confi_1, physical_drive_sn_1,
@@ -391,8 +460,7 @@ def test():
                                                     physical_drive_fw_10, physical_drive_confi_10, physical_drive_sn_10,
                                                     ip)
                 elif i == 4:
-                    insert_db.update_storage_4_info(logical_drives_label, logical_drives_status, logical_drives_capacity,
-                                                    logical_drives_fault_tolerance,logical_drive_type,
+                    insert_db.update_storage_4_info(logical_drives_label, logical_drives_status, logical_drives_capacity,logical_drives_fault_tolerance,logical_drive_type,
                                                     physical_drive_label_1, physical_drive_status_1,
                                                     physical_drive_capacity_1, physical_drive_model_1,
                                                     physical_drive_fw_1, physical_drive_confi_1, physical_drive_sn_1,
@@ -425,8 +493,7 @@ def test():
                                                     physical_drive_fw_10, physical_drive_confi_10, physical_drive_sn_10,
                                                     ip)
                 elif i == 5:
-                    insert_db.update_storage_5_info(logical_drives_label, logical_drives_status, logical_drives_capacity,
-                                                    logical_drives_fault_tolerance,logical_drive_type,
+                    insert_db.update_storage_5_info(logical_drives_label, logical_drives_status, logical_drives_capacity,logical_drives_fault_tolerance,logical_drive_type,
                                                     physical_drive_label_1, physical_drive_status_1,
                                                     physical_drive_capacity_1, physical_drive_model_1,
                                                     physical_drive_fw_1, physical_drive_confi_1, physical_drive_sn_1,
@@ -459,8 +526,7 @@ def test():
                                                     physical_drive_fw_10, physical_drive_confi_10, physical_drive_sn_10,
                                                     ip)
                 elif i == 6:
-                    insert_db.update_storage_6_info(logical_drives_label, logical_drives_status, logical_drives_capacity,
-                                                    logical_drives_fault_tolerance,logical_drive_type,
+                    insert_db.update_storage_6_info(logical_drives_label, logical_drives_status, logical_drives_capacity,logical_drives_fault_tolerance,logical_drive_type,
                                                     physical_drive_label_1, physical_drive_status_1,
                                                     physical_drive_capacity_1, physical_drive_model_1,
                                                     physical_drive_fw_1, physical_drive_confi_1, physical_drive_sn_1,
@@ -493,8 +559,7 @@ def test():
                                                     physical_drive_fw_10, physical_drive_confi_10, physical_drive_sn_10,
                                                     ip)
                 elif i == 7:
-                    insert_db.update_storage_7_info(logical_drives_label, logical_drives_status, logical_drives_capacity,
-                                                    logical_drives_fault_tolerance,logical_drive_type,
+                    insert_db.update_storage_7_info(logical_drives_label, logical_drives_status, logical_drives_capacity,logical_drives_fault_tolerance,logical_drive_type,
                                                     physical_drive_label_1, physical_drive_status_1,
                                                     physical_drive_capacity_1, physical_drive_model_1,
                                                     physical_drive_fw_1, physical_drive_confi_1, physical_drive_sn_1,
@@ -527,8 +592,7 @@ def test():
                                                     physical_drive_fw_10, physical_drive_confi_10, physical_drive_sn_10,
                                                     ip)
                 elif i == 8:
-                    insert_db.update_storage_8_info(logical_drives_label, logical_drives_status, logical_drives_capacity,
-                                                    logical_drives_fault_tolerance,logical_drive_type,
+                    insert_db.update_storage_8_info(logical_drives_label, logical_drives_status, logical_drives_capacity,logical_drives_fault_tolerance,logical_drive_type,
                                                     physical_drive_label_1, physical_drive_status_1,
                                                     physical_drive_capacity_1, physical_drive_model_1,
                                                     physical_drive_fw_1, physical_drive_confi_1, physical_drive_sn_1,
@@ -562,8 +626,7 @@ def test():
                                                     ip)
 
                 elif i == 9:
-                    insert_db.update_storage_1_info(logical_drives_label, logical_drives_status, logical_drives_capacity,
-                                                    logical_drives_fault_tolerance,logical_drive_type,
+                    insert_db.update_storage_9_info(logical_drives_label, logical_drives_status, logical_drives_capacity,logical_drives_fault_tolerance,logical_drive_type,
                                                     physical_drive_label_1, physical_drive_status_1,
                                                     physical_drive_capacity_1, physical_drive_model_1,
                                                     physical_drive_fw_1, physical_drive_confi_1, physical_drive_sn_1,
@@ -596,8 +659,7 @@ def test():
                                                     physical_drive_fw_10, physical_drive_confi_10, physical_drive_sn_10,
                                                     ip)
                 elif i == 10:
-                    insert_db.update_storage_10_info(logical_drives_label, logical_drives_status, logical_drives_capacity,
-                                                    logical_drives_fault_tolerance,logical_drive_type,
+                    insert_db.update_storage_10_info(logical_drives_label, logical_drives_status, logical_drives_capacity,logical_drives_fault_tolerance,logical_drive_type,
                                                     physical_drive_label_1, physical_drive_status_1,
                                                     physical_drive_capacity_1, physical_drive_model_1,
                                                     physical_drive_fw_1, physical_drive_confi_1, physical_drive_sn_1,
@@ -630,8 +692,7 @@ def test():
                                                     physical_drive_fw_10, physical_drive_confi_10, physical_drive_sn_10,
                                                     ip)
                 elif i == 11:
-                    insert_db.update_storage_11_info(logical_drives_label, logical_drives_status, logical_drives_capacity,
-                                                    logical_drives_fault_tolerance,logical_drive_type,
+                    insert_db.update_storage_11_info(logical_drives_label, logical_drives_status, logical_drives_capacity,logical_drives_fault_tolerance,logical_drive_type,
                                                     physical_drive_label_1, physical_drive_status_1,
                                                     physical_drive_capacity_1, physical_drive_model_1,
                                                     physical_drive_fw_1, physical_drive_confi_1, physical_drive_sn_1,
@@ -664,8 +725,7 @@ def test():
                                                     physical_drive_fw_10, physical_drive_confi_10, physical_drive_sn_10,
                                                     ip)
                 elif i == 12:
-                    insert_db.update_storage_12_info(logical_drives_label, logical_drives_status, logical_drives_capacity,
-                                                    logical_drives_fault_tolerance,logical_drive_type,
+                    insert_db.update_storage_12_info(logical_drives_label, logical_drives_status, logical_drives_capacity,logical_drives_fault_tolerance,logical_drive_type,
                                                     physical_drive_label_1, physical_drive_status_1,
                                                     physical_drive_capacity_1, physical_drive_model_1,
                                                     physical_drive_fw_1, physical_drive_confi_1, physical_drive_sn_1,
@@ -697,6 +757,8 @@ def test():
                                                     physical_drive_capacity_10, physical_drive_model_10,
                                                     physical_drive_fw_10, physical_drive_confi_10, physical_drive_sn_10,
                                                     ip)
+      #  def power_info():
+
 
         if ilo_model != 'iLO3':
             #memory_all = analyse_json.get_memory_info(health_info)
