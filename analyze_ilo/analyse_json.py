@@ -12,15 +12,17 @@ def get_firmware_info(all_info):
 
 def get_storage_info_ilo3(all_info):
     storage = all_info['drives_backplanes']
+    yield(len(storage))
     for i in storage:
         print("firmware_version: {}; enclosure: {};".format(i['firmware_version'],i['enclosure_addr']))
         for j in i['drive_bays'].items():
-            print("addr:{}; status:{}; product_id:{}; uid_led:{}".format(j[0],j[1]['status'],j[1]['product_id'],j[1]['uid_led']))
+            yield(str(j[0]),j[1]['status'],j[1]['product_id'])
 
 def get_storage_info(all_info):
     storage = all_info['storage']
     Controller_on_System_Board = storage['Controller on System Board']
     logical_drives = Controller_on_System_Board['logical_drives']
+    yield (len(logical_drives))
     for i in range(0,len(logical_drives)):
         try:
             print(logical_drives[i]['label'],logical_drives[i]['status'],logical_drives[i]['capacity'],logical_drives[i]['fault_tolerance'],logical_drives[i]['logical_drive_type'])
@@ -28,15 +30,15 @@ def get_storage_info(all_info):
             logical_drives[i]['logical_drive_type']=None
         finally:
             yield(logical_drives[i]['label'],logical_drives[i]['status'],logical_drives[i]['capacity'],logical_drives[i]['fault_tolerance'],logical_drives[i]['logical_drive_type'],len(logical_drives[i]['physical_drives']))
-        for j in range(0,len(logical_drives[i]['physical_drives'])):
-            # print(logical_drives[i]['physical_drives'][j]['label'],logical_drives[i]['physical_drives'][j]['status'],
-            #       logical_drives[i]['physical_drives'][j]['capacity'],logical_drives[i]['physical_drives'][j]['model'],
-            #       logical_drives[i]['physical_drives'][j]['fw_version'],logical_drives[i]['physical_drives'][j]['drive_configuration'],
-            #       logical_drives[i]['physical_drives'][j]['serial_number'])
-            yield(logical_drives[i]['physical_drives'][j]['label'],logical_drives[i]['physical_drives'][j]['status'],
-                  logical_drives[i]['physical_drives'][j]['capacity'],logical_drives[i]['physical_drives'][j]['model'],
-                  logical_drives[i]['physical_drives'][j]['fw_version'],logical_drives[i]['physical_drives'][j]['drive_configuration'],
-                  logical_drives[i]['physical_drives'][j]['serial_number'])
+            for j in range(0,len(logical_drives[i]['physical_drives'])):
+                print(logical_drives[i]['physical_drives'][j]['label'],logical_drives[i]['physical_drives'][j]['status'],
+                      logical_drives[i]['physical_drives'][j]['capacity'],logical_drives[i]['physical_drives'][j]['model'],
+                      logical_drives[i]['physical_drives'][j]['fw_version'],logical_drives[i]['physical_drives'][j]['drive_configuration'],
+                      logical_drives[i]['physical_drives'][j]['serial_number'])
+                yield(logical_drives[i]['physical_drives'][j]['label'],logical_drives[i]['physical_drives'][j]['status'],
+                      logical_drives[i]['physical_drives'][j]['capacity'],logical_drives[i]['physical_drives'][j]['model'],
+                      logical_drives[i]['physical_drives'][j]['fw_version'],logical_drives[i]['physical_drives'][j]['drive_configuration'],
+                      logical_drives[i]['physical_drives'][j]['serial_number'])
 
 
 
@@ -44,7 +46,9 @@ def get_storage_info(all_info):
 def get_memory_info(all_info):
     memory = all_info['memory']
     details = memory["memory_details"]
+    yield(len(details))
     for i in details.keys():
+        yield(len(details[i]))
         for j in details[i].values():
             yield (i,j['socket'],j['status'], j['part']['number'], j['type'], j['size'], j['frequency'],j['minimum_voltage'])
             # if j['status'] == 'Not Present':
@@ -54,6 +58,7 @@ def get_memory_info(all_info):
 
 def get_memory_info_ilo3(all_info):
     memory = all_info['memory']
+    yield (len(memory))
     for i in memory.values()[0]:
         yield(i[0][1]['value'],i[1][1]['value'],i[2][1]['value'])
  #       print("memory_location:{}; memory_size:{}; memory_speed:{}".format(i[0][1]['value'],i[1][1]['value'],i[2][1]['value']))
@@ -67,6 +72,7 @@ def get_memory_info_ilo3(all_info):
 def get_network_info(xmldata):
     network = xmldata['hsi']['nics']
     print("network:")
+    yield(len(network))
     for i in network:
         # if i['status'] != 'Unknown' and i['status'] != 'Disabled':
         #print("description: {}; status: {}; ipaddr: {}; macaddr: {}; port: {}".format(i['description'],i['status'], i['ipaddr'],i['macaddr'], i['port']))
@@ -88,10 +94,11 @@ def get_fan_info(ilo_model,all_info):
     dict_fan = {}
     fan = all_info['fans']
     #for i in range(1, len(fan) + 1):
+    yield (len(fan))
     for i in fan.items():
         i[1]["speed"] = list(i[1]["speed"])
 #        speed =
-        print(i[1],i[1]['speed'][0],i[1]['zone'])
+        print(len(fan),i[1],i[1]['speed'][0],i[1]['zone'])
         yield(i[1]["status"],i[1]['speed'][0],i[1]["zone"],i[1]["label"])
 #        print("风扇{2}状态：{0},风扇{2}速度：{1},风扇{2}位置：{3}".format(fan["Fan %d"%i]["status"],fan["Fan %d"%i]["speed"],i,fan["Fan %d"%i]['zone']))
 
@@ -104,10 +111,27 @@ def get_fan_info(ilo_model,all_info):
 
 def get_power_info(all_info):
     power_supplies = all_info['power_supplies']
+    number = len(power_supplies)
+    yield (number)
     for i in power_supplies:
-        print("{}: 'status: {}; capacity: {}".format(i,power_supplies[i]['status'],power_supplies[i]['capacity']))
+        if i == 'Battery 1':
+            yield(power_supplies[i]['label'],power_supplies[i]['status'],power_supplies[i]['present'],power_supplies[i]['model'],
+                  power_supplies[i]['spare'],power_supplies[i]['firmware_version'],power_supplies[i]['capacity'],power_supplies[i]['serial_number'])
+            print(power_supplies[i]['label'],power_supplies[i]['status'],power_supplies[i]['present'],power_supplies[i]['model'],
+                  power_supplies[i]['spare'],power_supplies[i]['firmware_version'],power_supplies[i]['capacity'],power_supplies[i]['serial_number'])
+
+        else:
+            yield(power_supplies[i]['label'],power_supplies[i]['status'],power_supplies[i]['serial_number'],power_supplies[i]['capacity'],
+                  power_supplies[i]['hotplug_capable'],power_supplies[i]['model'],power_supplies[i]['present'],power_supplies[i]['spare'],
+                  power_supplies[i]['firmware_version'],power_supplies[i]['pds'])
+            print(power_supplies[i]['label'],power_supplies[i]['status'],power_supplies[i]['serial_number'],power_supplies[i]['capacity'],
+                  power_supplies[i]['hotplug_capable'],power_supplies[i]['model'],power_supplies[i]['present'],power_supplies[i]['spare'],
+                  power_supplies[i]['firmware_version'],power_supplies[i]['pds'])
 
     power_supply_summary = all_info['power_supply_summary']
+    yield(power_supply_summary['high_efficiency_mode'],power_supply_summary['power_management_controller_firmware_version'],
+          power_supply_summary['present_power_reading'],power_supply_summary['power_system_redundancy'],
+          power_supply_summary['hp_power_discovery_services_redundancy_status'])
     print("present_power_reading: {};\
            power_management_controller_firmware_version: {};\
            power_system_redundancy: {};\
@@ -120,7 +144,10 @@ def get_power_info(all_info):
 def get_power_info_ilo3(all_info):
     power = all_info['power_supplies']
     for i in power:
-        print("{}: 'status: {}".format(i, power[i]['status']))
+        yield(i, power[i]['status'])
+    power_supply_summary = all_info['power_supply_summary']
+    yield (power_supply_summary['high_efficiency_mode'], power_supply_summary['power_management_controller_firmware_version'],
+           power_supply_summary['present_power_reading'])
 
 def get_temperature_info(all_info):
     temper = all_info['temperature']
