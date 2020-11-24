@@ -41,8 +41,8 @@ def test(id,ip):
     storage_all = analyse_json.get_storage_info(health_info)
 
 
-#        insert_db.update_fw_info(product_name,server_name,ilo_model,fw_version,fw_data,ip)
-#        insert_db.update_server_general_info(bios_hardware,fans,temperature,power_supplies,battery,processor,memory,network,storage,ip)
+    insert_db.update_fw_info(product_name,server_name,ilo_model,fw_version,fw_data,ip)
+    insert_db.update_server_general_info(bios_hardware,fans,temperature,power_supplies,battery,processor,memory,network,storage,ip)
         #以上是获取硬件大体信息
         #以下是获取硬件详细信息
     def fan_info(ip,fan_all):
@@ -59,7 +59,7 @@ def test(id,ip):
                 # print(fan_status, fan_speed, fan_location)  #
                 insert_db.insert_fan_info(fan_status,fan_speed,fan_location,fan_label,ip,id)
             # insert_db.update_server_general_info(fan_status,fan_speed,fan_location)
-    #fan_info(ip,fan_all)
+    fan_info(ip,fan_all)
 
     def network_info(ip,network_all):
         global network_name, network_status, network_ipaddr, network_macaddr, network_port
@@ -123,6 +123,7 @@ def test(id,ip):
                 except StopIteration:
                     physical_drive_label, physical_drive_status, physical_drive_capacity, physical_drive_model, physical_drive_fw , physical_drive_confi, physical_drive_sn = (None, None, None, None, None, None, None)
                 finally:
+                    print(logical_drives_label,logical_drives_status,logical_drives_capacity,logical_drives_fault_tolerance,logical_drive_type,physical_drive_label,physical_drive_status,physical_drive_capacity,physical_drive_model,physical_drive_sn,physical_drive_confi,physical_drive_fw)
                     insert_db.insert_storage_info(logical_drives_label,logical_drives_status,logical_drives_capacity,logical_drives_fault_tolerance,logical_drive_type,physical_drive_label,physical_drive_status,physical_drive_capacity,physical_drive_model,physical_drive_sn,physical_drive_confi,physical_drive_fw,ip,id)
     def storage_ilo3_info(storage_all,ip):
         physical_drive_label,physical_drive_status,physical_drive_sn = (None,None,None)
@@ -138,45 +139,109 @@ def test(id,ip):
 
 
 
-    def power_info(power_all):
+    def power_info(power_all,ip):
         power_supplies_label, power_supplies_status, power_supplies_present,\
         power_supplies_model, power_supplies_spare, power_supplies_fw,power_supplies_capacity,\
         power_supplies_sn, power_supplies_hotplug, power_supplies_pds = (None,None,None,None,None,None,None,None,None,None)
+
         number = 0
-        for i in (1, number + 1):
-            if i == 1:
+        number = power_all.next()
+        for i in range(1, number + 1):
+            try:
+                power_supplies_label,power_supplies_status,power_supplies_sn,power_supplies_capacity,power_supplies_hotplug,power_supplies_model,\
+                power_supplies_present,power_supplies_spare,power_supplies_fw,power_supplies_pds = power_all.next()
+            except StopIteration:
+                power_supplies_label, power_supplies_status, power_supplies_sn, power_supplies_capacity, power_supplies_hotplug, power_supplies_model, \
+                power_supplies_present, power_supplies_spare, power_supplies_fw, power_supplies_pds = (None,None,None,None,None,None,None,None,None,None)
+            finally:
+                insert_db.insert_power_info(power_supplies_label,power_supplies_status,power_supplies_sn,power_supplies_capacity,power_supplies_hotplug,power_supplies_model,
+                power_supplies_present,power_supplies_spare,power_supplies_fw,power_supplies_pds,ip,id)
+
+
+    def power_ilo3_info(power_all,ip):
+        power_supplies_label,power_supplies_status = (None,None)
+        number = 0
+        number = power_all.next()
+        for i in range(1, number + 1):
+            try:
+                power_supplies_label,power_supplies_status = power_all.next()
+            except StopIteration:
+                power_supplies_label,power_supplies_status = (None,None)
+            finally:
+                insert_db.insert_power_ilo3_info(power_supplies_label,power_supplies_status,ip,id)
+
+    def power_summary_info(power_all,ip,ilo_model):
+        high_efficiency_mode,power_redundancy_status,power_management_control_fw,present_power_reading,power_system_redundancy = (None,None,None,None,None)
+
+        if ilo_model == 'iLO3':
+            try:
+                high_efficiency_mode,power_management_control_fw,present_power_reading = power_all.next()
+            except StopIteration:
+                high_efficiency_mode, power_management_control_fw, present_power_reading = (None,None,None)
+            finally:
+                insert_db.update_power_sum_info(high_efficiency_mode, power_redundancy_status, power_management_control_fw, present_power_reading, power_system_redundancy)
+        else:
+            try:
+                high_efficiency_mode, power_redundancy_status, power_management_control_fw, present_power_reading, power_system_redundancy = power_all.next()
+            except StopIteration:
+                high_efficiency_mode, power_redundancy_status, power_management_control_fw, present_power_reading, power_system_redundancy = (None,None,None,None,None)
+            finally:
+                insert_db.update_power_sum_info(high_efficiency_mode, power_redundancy_status, power_management_control_fw, present_power_reading, power_system_redundancy,ip,id)
+
+    def processors_info(processor_all,ip,ilo_model):
+        processor_name,processor_status,processor_label, processor_exe_tech, processor_inter_l1_cache, processor_inter_l2_cache, processor_inter_l3_cache, processor_memory_tech, processor_speed = (None,None,None,None,None,None,None,None,None)
+        number = processor_all.next()
+        for i in range(1, number + 1):
+            if ilo_model == 'iLO3':
                 try:
-                    power_supplies_label,power_supplies_status,power_supplies_present,power_supplies_model,\
-                    power_supplies_spare,power_supplies_fw,power_supplies_capacity,power_supplies_sn = power_all.next()
-
-
-
-
-
-
-
-    def power_ilo3_info():
-
+                    processor_label, processor_exe_tech, processor_inter_l1_cache, processor_inter_l2_cache, processor_inter_l3_cache, processor_memory_tech, processor_speed = processor_all.next()
+                except StopIteration:
+                    processor_label, processor_exe_tech, processor_inter_l1_cache, processor_inter_l2_cache, processor_inter_l3_cache, processor_memory_tech, processor_speed = (None,None,None,None,None,None,None)
+                finally:
+                    insert_db.insert_processor_info(processor_name,processor_status,processor_label, processor_exe_tech, processor_inter_l1_cache, processor_inter_l2_cache, processor_inter_l3_cache, processor_memory_tech, processor_speed,ip,id)
+            else:
+                processor_name, processor_status, processor_label, processor_exe_tech, processor_inter_l1_cache, processor_inter_l2_cache, processor_inter_l3_cache, processor_memory_tech, processor_speed = processor_all.next()
+                insert_db.insert_processor_info(processor_name,processor_status,processor_label, processor_exe_tech, processor_inter_l1_cache, processor_inter_l2_cache, processor_inter_l3_cache, processor_memory_tech, processor_speed,ip,id)
 
     if ilo_model != 'iLO3':
         memory_all = analyse_json.get_memory_info(health_info)
         memory_info(memory_all,ip)
         storage_all = analyse_json.get_storage_info(health_info)
-        storage_info(storage_all,ip)
-        #net_all = ilo.xmldata()
-        # network_all = analyse_json.get_network_info(net_all)
-        # network_info(ip,network_all)
-        # power_all = analyse_json.get_power_info(health_info)
-        # power_info(storage_all,ip)
+        try:
+            storage_info(storage_all,ip)
+        except :
+            print('over')
+        net_all = ilo.xmldata()
+        network_all = analyse_json.get_network_info(net_all)
+        network_info(ip,network_all)
+        power_all = analyse_json.get_power_info(health_info)
+        power_info(power_all,ip)
+        power_sum_all = analyse_json.get_power_summary_info(health_info)
+        power_summary_info(power_sum_all,ip,ilo_model)
+        processor_all = analyse_json.get_processors_info(health_info)
+        processors_info(processor_all,ip,ilo_model)
+
+
+
 
 
     else:
        memory_all = analyse_json.get_memory_info_ilo3(health_info)
        memory_info_ilo3(memory_all,ip)
        storage_all = analyse_json.get_storage_info_ilo3(health_info)
-       storage_ilo3_info(storage_all,ip)
-       #power_all = analyse_json.get_power_info_ilo3(health_info)
-       #power_info(storage_all,ip)
+       try:
+           storage_ilo3_info(storage_all,ip)
+       except:
+           print('over')
+       power_all = analyse_json.get_power_info_ilo3(health_info)
+       power_ilo3_info(power_all,ip)
+       power_sum_all = analyse_json.get_power_summary_ilo3_info(health_info)
+       power_summary_info(power_sum_all, ip, ilo_model)
+       processor_all = analyse_json.get_processors_info_ilo3(health_info)
+       processors_info(processor_all, ip,ilo_model)
+
+
+
 
 
 

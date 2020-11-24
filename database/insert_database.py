@@ -15,12 +15,12 @@ def update_fw_info(product_name=None, server_name=None, ilo_model=None, fw_versi
 
 def update_server_general_info(bios_hardware=None,fans=None,temperature=None,power_supplies=None,battery=None,processor=None,memory=None,network=None,storage=None,ip=None):
     connection = cx_Oracle.connect('gl_sm/gl_sm@10.195.227.244/db244d')
-    param = {'BIOS_HARDWARE': bios_hardware, 'FANS': fans, 'TEMPERATURE': temperature,
-             'POWER_SUPPLIES': power_supplies, 'BATTERY': battery, 'PROCESSOR': processor,
-             'MEMORY': memory, 'NETWORK':network,'STORAGE':storage,'IP_ILO':ip}
+    param = {'BIOS_HARDWARE_STATUS': bios_hardware, 'FANS_STATUS': fans, 'TEMPERATURE_STATUS': temperature,
+             'POWER_SUPPLIES_STATUS': power_supplies, 'BATTERY_STATUS': battery, 'PROCESSOR_STATUS': processor,
+             'MEMORY_STATUS': memory, 'NETWORK_STATUS':network,'STORAGE_STATUS':storage,'IP_ILO':ip}
     print(param)
     with connection.cursor() as cursor:
-        cursor.execute('update ILO_INFO set BIOS_HARDWARE=:BIOS_HARDWARE,FANS=:FANS,TEMPERATURE=:TEMPERATURE,POWER_SUPPLIES=:POWER_SUPPLIES,BATTERY=:BATTERY,PROCESSOR=:PROCESSOR,MEMORY=:MEMORY,NETWORK=:NETWORK,STORAGE=:STORAGE where IP_ILO=:IP_ILO',param)
+        cursor.execute('update ILO_INFO set BIOS_HARDWARE_STATUS=:BIOS_HARDWARE_STATUS,FANS_STATUS=:FANS_STATUS,TEMPERATURE_STATUS=:TEMPERATURE_STATUS,POWER_SUPPLIES_STATUS=:POWER_SUPPLIES_STATUS,BATTERY_STATUS=:BATTERY_STATUS,PROCESSOR_STATUS=:PROCESSOR_STATUS,MEMORY_STATUS=:MEMORY_STATUS,NETWORK_STATUS=:NETWORK_STATUS,STORAGE_STATUS=:STORAGE_STATUS where IP_ILO=:IP_ILO',param)
     connection.commit()
     connection.close()
 
@@ -45,18 +45,6 @@ def insert_network_info(network_name=None,network_status=None,network_ipaddr=Non
     connection.close()
 
 
-
-# def insert_memory_info(memory=None,socket=None,socket_status=None,socket_part_number=None,socket_type=None,socket_size=None,socket_frequency=None,socket_minimum_voltage=None,ip=None,id=None):
-#     connection = cx_Oracle.connect('gl_sm/gl_sm@10.195.227.244/db244d')
-#     param = {'MEMORY': memory, 'SOCKET': socket, 'SOCKET_STATUS': socket_status,
-#              'SOCKET_PART_NUMBER': socket_part_number, 'SOCKET_TYPE': socket_type, 'SOCKET_SIZE': socket_size,'SOCKET_FREQUENCY': socket_frequency,'SOCKET_MINIMUM_VOLTAGE': socket_minimum_voltage,'IP_ILO': ip,'HARDWARD_ID': id}
-#     with connection.cursor() as cursor:
-#         cursor.execute(
-#             'update MEMORY_INFO set MEMORY=:memory,SOCKET=:socket,SOCKET_STATUS=:socket_status,SOCKET_PART_NUMBER=:socket_part_number,SOCKET_TYPE=:socket_type,SOCKET_SIZE=:socket_size,SOCKET_FREQUENCY=:socket_frequency,SOCKET_MINIMUM_VOLTAGE=:socket_minimum_voltage where IP_ILO=:IP_ILO',
-#             param)
-#     connection.commit()
-#     connection.close()
-
 def insert_memory_info(memory=None,socket=None,socket_status=None,socket_part_number=None,socket_type=None,socket_size=None,socket_frequency=None,socket_minimum_voltage=None,ip=None,id=None):
     connection = cx_Oracle.connect('gl_sm/gl_sm@10.195.227.244/db244d')
     param = {'MEMORY': memory, 'SOCKET': socket, 'SOCKET_STATUS': socket_status,
@@ -69,16 +57,6 @@ def insert_memory_info(memory=None,socket=None,socket_status=None,socket_part_nu
     connection.close()
 
 
-
-# def update_memory_ilo3_info(socket=None,socket_status=None,socket_size=None,ip=None):
-#     connection = cx_Oracle.connect('gl_sm/gl_sm@10.195.227.244/db244d')
-#     param = {'SOCKET': socket, 'SOCKET_STATUS': socket_status,'SOCKET_SIZE': socket_size,'IP_ILO': ip}
-#     with connection.cursor() as cursor:
-#         cursor.execute(
-#             'update MEMORY_INFO set SOCKET=:socket,SOCKET_STATUS=:socket_status,SOCKET_SIZE=:socket_size where IP_ILO=:IP_ILO',param)
-#     connection.commit()
-#     connection.close()
-
 def insert_memory_ilo3_info(socket=None,socket_status=None,socket_size=None,ip=None,id=None):
     connection = cx_Oracle.connect('gl_sm/gl_sm@10.195.227.244/db244d')
     param = {'SOCKET': socket, 'SOCKET_STATUS': socket_status,'SOCKET_SIZE': socket_size,'IP_ILO': ip,'HARDWARE_ID': id}
@@ -88,59 +66,6 @@ def insert_memory_ilo3_info(socket=None,socket_status=None,socket_size=None,ip=N
     connection.commit()
     connection.close()
 
-
-# def update_storage_info(logical_drive=None,logical_drive_status=None,logical_drive_capacity=None,logical_drive_tolerance=None,logical_drive_type=None,physical_drive_label_1=None,physical_drive_status_1=None,physical_drive_capacity_1=None,physical_drive_model_1=None,physical_drive_sn_1=None,physical_drive_confi_1=None,physical_drive_fw_1=None,
-#                                                                                                                                physical_drive_label_2=None,physical_drive_status_2=None,physical_drive_capacity_2=None,physical_drive_model_2=None,physical_drive_sn_2=None,physical_drive_confi_2=None,physical_drive_fw_2=None,
-#                                                                                                                                physical_drive_label_3=None,physical_drive_status_3=None,physical_drive_capacity_3=None,physical_drive_model_3=None,physical_drive_sn_3=None,physical_drive_confi_3=None,physical_drive_fw_3=None,
-#                                                                                                                                physical_drive_label_4=None,physical_drive_status_4=None,physical_drive_capacity_4=None,physical_drive_model_4=None,physical_drive_sn_4=None,physical_drive_confi_4=None,physical_drive_fw_4=None,
-#                                                                                                                                physical_drive_label_5=None,physical_drive_status_5=None,physical_drive_capacity_5=None,physical_drive_model_5=None,physical_drive_sn_5=None,physical_drive_confi_5=None,physical_drive_fw_5=None,
-#                                                                                                                                physical_drive_label_6=None,physical_drive_status_6=None,physical_drive_capacity_6=None,physical_drive_model_6=None,physical_drive_sn_6=None,physical_drive_confi_6=None,physical_drive_fw_6=None,
-#                                                                                                                                physical_drive_label_7=None,physical_drive_status_7=None,physical_drive_capacity_7=None,physical_drive_model_7=None,physical_drive_sn_7=None,physical_drive_confi_7=None,physical_drive_fw_7=None,
-#                                                                                                                                physical_drive_label_8=None,physical_drive_status_8=None,physical_drive_capacity_8=None,physical_drive_model_8=None,physical_drive_sn_8=None,physical_drive_confi_8=None,physical_drive_fw_8=None,
-#                                                                                                                                physical_drive_label_9=None,physical_drive_status_9=None,physical_drive_capacity_9=None,physical_drive_model_9=None,physical_drive_sn_9=None,physical_drive_confi_9=None,physical_drive_fw_9=None,
-#                                                                                                                                physical_drive_label_10=None,physical_drive_status_10=None,physical_drive_capacity_10=None,physical_drive_model_10=None,physical_drive_sn_10=None,physical_drive_confi_10=None,physical_drive_fw_10=None,
-#                                                                                                                                physical_drive_label_11=None,physical_drive_status_11=None,physical_drive_capacity_11=None,physical_drive_model_11=None,physical_drive_sn_11=None,physical_drive_confi_11=None,physical_drive_fw_11=None,
-#                                                                                                                                physical_drive_label_12=None,physical_drive_status_12=None,physical_drive_capacity_12=None,physical_drive_model_12=None,physical_drive_sn_12=None,physical_drive_confi_12=None,physical_drive_fw_12=None,
-#                                                                                                                                physical_drive_label_13=None,physical_drive_status_13=None,physical_drive_capacity_13=None,physical_drive_model_13=None,physical_drive_sn_13=None,physical_drive_confi_13=None,physical_drive_fw_13=None,
-#                                                                                                                                physical_drive_label_14=None,physical_drive_status_14=None,physical_drive_capacity_14=None,physical_drive_model_14=None,physical_drive_sn_14=None,physical_drive_confi_14=None,physical_drive_fw_14=None,
-#                                                                                                                                ip=None):
-#     connection = cx_Oracle.connect('gl_sm/gl_sm@10.195.227.244/db244d')
-#     param = {'LOGICAL_DRIVE_1': logical_drive, 'LOGICAL_DRIVE_STATUS_1': logical_drive_status, 'LOGICAL_DRIVE_CAPACITY_1': logical_drive_capacity,'LOGICAL_DRIVE_TOLERANCE_1': logical_drive_tolerance,'LOGICAL_DRIVE_TYPE_1': logical_drive_type,
-#     'PHYSICAL_DRIVE_LABEL_1_1': physical_drive_label_1,'PHYSICAL_DRIVE_STATUS_1_1': physical_drive_status_1,'PHYSICAL_DRIVE_MODEL_1_1': physical_drive_model_1,'PHYSICAL_DRIVE_CAPACITY_1_1': physical_drive_capacity_1,'PHYSICAL_DRIVE_SN_1_1': physical_drive_sn_1,'PHYSICAL_DRIVE_CONFI_1_1': physical_drive_confi_1,'PHYSICAL_DRIVE_FW_1_1': physical_drive_fw_1,
-#     'PHYSICAL_DRIVE_LABEL_1_2': physical_drive_label_2,'PHYSICAL_DRIVE_STATUS_1_2': physical_drive_status_2,'PHYSICAL_DRIVE_MODEL_1_2': physical_drive_model_2,'PHYSICAL_DRIVE_CAPACITY_1_2': physical_drive_capacity_2,'PHYSICAL_DRIVE_SN_1_2': physical_drive_sn_2,'PHYSICAL_DRIVE_CONFI_1_2': physical_drive_confi_2,'PHYSICAL_DRIVE_FW_1_2': physical_drive_fw_2,
-#     'PHYSICAL_DRIVE_LABEL_1_3': physical_drive_label_3,'PHYSICAL_DRIVE_STATUS_1_3': physical_drive_status_3,'PHYSICAL_DRIVE_MODEL_1_3': physical_drive_model_3,'PHYSICAL_DRIVE_CAPACITY_1_3': physical_drive_capacity_3,'PHYSICAL_DRIVE_SN_1_3': physical_drive_sn_3,'PHYSICAL_DRIVE_CONFI_1_3': physical_drive_confi_3,'PHYSICAL_DRIVE_FW_1_3': physical_drive_fw_3,
-#     'PHYSICAL_DRIVE_LABEL_1_4': physical_drive_label_4,'PHYSICAL_DRIVE_STATUS_1_4': physical_drive_status_4,'PHYSICAL_DRIVE_MODEL_1_4': physical_drive_model_4,'PHYSICAL_DRIVE_CAPACITY_1_4': physical_drive_capacity_4,'PHYSICAL_DRIVE_SN_1_4': physical_drive_sn_4,'PHYSICAL_DRIVE_CONFI_1_4': physical_drive_confi_4,'PHYSICAL_DRIVE_FW_1_4': physical_drive_fw_4,
-#     'PHYSICAL_DRIVE_LABEL_1_5': physical_drive_label_5,'PHYSICAL_DRIVE_STATUS_1_5': physical_drive_status_5,'PHYSICAL_DRIVE_MODEL_1_5': physical_drive_model_5,'PHYSICAL_DRIVE_CAPACITY_1_5': physical_drive_capacity_5,'PHYSICAL_DRIVE_SN_1_5': physical_drive_sn_5,'PHYSICAL_DRIVE_CONFI_1_5': physical_drive_confi_5,'PHYSICAL_DRIVE_FW_1_5': physical_drive_fw_5,
-#     'PHYSICAL_DRIVE_LABEL_1_6': physical_drive_label_6,'PHYSICAL_DRIVE_STATUS_1_6': physical_drive_status_6,'PHYSICAL_DRIVE_MODEL_1_6': physical_drive_model_6,'PHYSICAL_DRIVE_CAPACITY_1_6': physical_drive_capacity_6,'PHYSICAL_DRIVE_SN_1_6': physical_drive_sn_6,'PHYSICAL_DRIVE_CONFI_1_6': physical_drive_confi_6,'PHYSICAL_DRIVE_FW_1_6': physical_drive_fw_6,
-#     'PHYSICAL_DRIVE_LABEL_1_7': physical_drive_label_7,'PHYSICAL_DRIVE_STATUS_1_7': physical_drive_status_7,'PHYSICAL_DRIVE_MODEL_1_7': physical_drive_model_7,'PHYSICAL_DRIVE_CAPACITY_1_7': physical_drive_capacity_7,'PHYSICAL_DRIVE_SN_1_7': physical_drive_sn_7,'PHYSICAL_DRIVE_CONFI_1_7': physical_drive_confi_7,'PHYSICAL_DRIVE_FW_1_7': physical_drive_fw_7,
-#     'PHYSICAL_DRIVE_LABEL_1_8': physical_drive_label_8,'PHYSICAL_DRIVE_STATUS_1_8': physical_drive_status_8,'PHYSICAL_DRIVE_MODEL_1_8': physical_drive_model_8,'PHYSICAL_DRIVE_CAPACITY_1_8': physical_drive_capacity_8,'PHYSICAL_DRIVE_SN_1_8': physical_drive_sn_8,'PHYSICAL_DRIVE_CONFI_1_8': physical_drive_confi_8,'PHYSICAL_DRIVE_FW_1_8': physical_drive_fw_8,
-#     'PHYSICAL_DRIVE_LABEL_1_9': physical_drive_label_9,'PHYSICAL_DRIVE_STATUS_1_9': physical_drive_status_9,'PHYSICAL_DRIVE_MODEL_1_9': physical_drive_model_9,'PHYSICAL_DRIVE_CAPACITY_1_9': physical_drive_capacity_9,'PHYSICAL_DRIVE_SN_1_9': physical_drive_sn_9,'PHYSICAL_DRIVE_CONFI_1_9': physical_drive_confi_9,'PHYSICAL_DRIVE_FW_1_9': physical_drive_fw_9,
-#     'PHYSICAL_DRIVE_LABEL_1_10': physical_drive_label_10,'PHYSICAL_DRIVE_STATUS_1_10': physical_drive_status_10,'PHYSICAL_DRIVE_MODEL_1_10': physical_drive_model_10,'PHYSICAL_DRIVE_CAPACITY_1_10': physical_drive_capacity_10, 'PHYSICAL_DRIVE_SN_1_10': physical_drive_sn_10,'PHYSICAL_DRIVE_CONFI_1_10': physical_drive_confi_10, 'PHYSICAL_DRIVE_FW_1_10': physical_drive_fw_10,
-#     'PHYSICAL_DRIVE_LABEL_1_11': physical_drive_label_11,'PHYSICAL_DRIVE_STATUS_1_11': physical_drive_status_11,'PHYSICAL_DRIVE_MODEL_1_11': physical_drive_model_11,'PHYSICAL_DRIVE_CAPACITY_1_11': physical_drive_capacity_11, 'PHYSICAL_DRIVE_SN_1_11': physical_drive_sn_11,'PHYSICAL_DRIVE_CONFI_1_11': physical_drive_confi_11, 'PHYSICAL_DRIVE_FW_1_11': physical_drive_fw_11,
-#     'PHYSICAL_DRIVE_LABEL_1_12': physical_drive_label_12,'PHYSICAL_DRIVE_STATUS_1_12': physical_drive_status_12,'PHYSICAL_DRIVE_MODEL_1_12': physical_drive_model_12,'PHYSICAL_DRIVE_CAPACITY_1_12': physical_drive_capacity_12, 'PHYSICAL_DRIVE_SN_1_12': physical_drive_sn_12,'PHYSICAL_DRIVE_CONFI_1_12': physical_drive_confi_12, 'PHYSICAL_DRIVE_FW_1_12': physical_drive_fw_12,
-#     'PHYSICAL_DRIVE_LABEL_1_13': physical_drive_label_13,'PHYSICAL_DRIVE_STATUS_1_13': physical_drive_status_13,'PHYSICAL_DRIVE_MODEL_1_13': physical_drive_model_13,'PHYSICAL_DRIVE_CAPACITY_1_13': physical_drive_capacity_13, 'PHYSICAL_DRIVE_SN_1_13': physical_drive_sn_13,'PHYSICAL_DRIVE_CONFI_1_13': physical_drive_confi_13, 'PHYSICAL_DRIVE_FW_1_13': physical_drive_fw_13,
-#     'PHYSICAL_DRIVE_LABEL_1_14': physical_drive_label_14,'PHYSICAL_DRIVE_STATUS_1_14': physical_drive_status_14,'PHYSICAL_DRIVE_MODEL_1_14': physical_drive_model_14,'PHYSICAL_DRIVE_CAPACITY_1_14': physical_drive_capacity_14, 'PHYSICAL_DRIVE_SN_1_14': physical_drive_sn_14,'PHYSICAL_DRIVE_CONFI_1_14': physical_drive_confi_14, 'PHYSICAL_DRIVE_FW_1_14': physical_drive_fw_14,
-#     'IP_ILO': ip}
-#     with connection.cursor() as cursor:
-#         cursor.execute(
-#             'update STORAGE_INFO set LOGICAL_DRIVE_1=:LOGICAL_DRIVE_1,LOGICAL_DRIVE_STATUS_1=:LOGICAL_DRIVE_STATUS_1,LOGICAL_DRIVE_CAPACITY_1=:LOGICAL_DRIVE_CAPACITY_1,LOGICAL_DRIVE_TOLERANCE_1=:LOGICAL_DRIVE_TOLERANCE_1,LOGICAL_DRIVE_TYPE_1=:LOGICAL_DRIVE_TYPE_1, \
-#              PHYSICAL_DRIVE_LABEL_1_1=:PHYSICAL_DRIVE_LABEL_1_1 ,PHYSICAL_DRIVE_STATUS_1_1=:PHYSICAL_DRIVE_STATUS_1_1,PHYSICAL_DRIVE_MODEL_1_1=:PHYSICAL_DRIVE_MODEL_1_1,PHYSICAL_DRIVE_CAPACITY_1_1=:PHYSICAL_DRIVE_CAPACITY_1_1,PHYSICAL_DRIVE_SN_1_1=:PHYSICAL_DRIVE_SN_1_1,PHYSICAL_DRIVE_CONFI_1_1=:PHYSICAL_DRIVE_CONFI_1_1,PHYSICAL_DRIVE_FW_1_1=:PHYSICAL_DRIVE_FW_1_1, \
-#              PHYSICAL_DRIVE_LABEL_1_2=:PHYSICAL_DRIVE_LABEL_1_2 ,PHYSICAL_DRIVE_STATUS_1_2=:PHYSICAL_DRIVE_STATUS_1_2,PHYSICAL_DRIVE_MODEL_1_2=:PHYSICAL_DRIVE_MODEL_1_2,PHYSICAL_DRIVE_CAPACITY_1_2=:PHYSICAL_DRIVE_CAPACITY_1_2,PHYSICAL_DRIVE_SN_1_2=:PHYSICAL_DRIVE_SN_1_2,PHYSICAL_DRIVE_CONFI_1_2=:PHYSICAL_DRIVE_CONFI_1_2,PHYSICAL_DRIVE_FW_1_2=:PHYSICAL_DRIVE_FW_1_2, \
-#              PHYSICAL_DRIVE_LABEL_1_3=:PHYSICAL_DRIVE_LABEL_1_3 ,PHYSICAL_DRIVE_STATUS_1_3=:PHYSICAL_DRIVE_STATUS_1_3,PHYSICAL_DRIVE_MODEL_1_3=:PHYSICAL_DRIVE_MODEL_1_3,PHYSICAL_DRIVE_CAPACITY_1_3=:PHYSICAL_DRIVE_CAPACITY_1_3,PHYSICAL_DRIVE_SN_1_3=:PHYSICAL_DRIVE_SN_1_3,PHYSICAL_DRIVE_CONFI_1_3=:PHYSICAL_DRIVE_CONFI_1_3,PHYSICAL_DRIVE_FW_1_3=:PHYSICAL_DRIVE_FW_1_3, \
-#              PHYSICAL_DRIVE_LABEL_1_4=:PHYSICAL_DRIVE_LABEL_1_4 ,PHYSICAL_DRIVE_STATUS_1_4=:PHYSICAL_DRIVE_STATUS_1_4,PHYSICAL_DRIVE_MODEL_1_4=:PHYSICAL_DRIVE_MODEL_1_4,PHYSICAL_DRIVE_CAPACITY_1_4=:PHYSICAL_DRIVE_CAPACITY_1_4,PHYSICAL_DRIVE_SN_1_4=:PHYSICAL_DRIVE_SN_1_4,PHYSICAL_DRIVE_CONFI_1_4=:PHYSICAL_DRIVE_CONFI_1_4,PHYSICAL_DRIVE_FW_1_4=:PHYSICAL_DRIVE_FW_1_4, \
-#              PHYSICAL_DRIVE_LABEL_1_5=:PHYSICAL_DRIVE_LABEL_1_5 ,PHYSICAL_DRIVE_STATUS_1_5=:PHYSICAL_DRIVE_STATUS_1_5,PHYSICAL_DRIVE_MODEL_1_5=:PHYSICAL_DRIVE_MODEL_1_5,PHYSICAL_DRIVE_CAPACITY_1_5=:PHYSICAL_DRIVE_CAPACITY_1_5,PHYSICAL_DRIVE_SN_1_5=:PHYSICAL_DRIVE_SN_1_5,PHYSICAL_DRIVE_CONFI_1_5=:PHYSICAL_DRIVE_CONFI_1_5,PHYSICAL_DRIVE_FW_1_5=:PHYSICAL_DRIVE_FW_1_5, \
-#              PHYSICAL_DRIVE_LABEL_1_6=:PHYSICAL_DRIVE_LABEL_1_6 ,PHYSICAL_DRIVE_STATUS_1_6=:PHYSICAL_DRIVE_STATUS_1_6,PHYSICAL_DRIVE_MODEL_1_6=:PHYSICAL_DRIVE_MODEL_1_6,PHYSICAL_DRIVE_CAPACITY_1_6=:PHYSICAL_DRIVE_CAPACITY_1_6,PHYSICAL_DRIVE_SN_1_6=:PHYSICAL_DRIVE_SN_1_6,PHYSICAL_DRIVE_CONFI_1_6=:PHYSICAL_DRIVE_CONFI_1_6,PHYSICAL_DRIVE_FW_1_6=:PHYSICAL_DRIVE_FW_1_6, \
-#              PHYSICAL_DRIVE_LABEL_1_7=:PHYSICAL_DRIVE_LABEL_1_7 ,PHYSICAL_DRIVE_STATUS_1_7=:PHYSICAL_DRIVE_STATUS_1_7,PHYSICAL_DRIVE_MODEL_1_7=:PHYSICAL_DRIVE_MODEL_1_7,PHYSICAL_DRIVE_CAPACITY_1_7=:PHYSICAL_DRIVE_CAPACITY_1_7,PHYSICAL_DRIVE_SN_1_7=:PHYSICAL_DRIVE_SN_1_7,PHYSICAL_DRIVE_CONFI_1_7=:PHYSICAL_DRIVE_CONFI_1_7,PHYSICAL_DRIVE_FW_1_7=:PHYSICAL_DRIVE_FW_1_7, \
-#              PHYSICAL_DRIVE_LABEL_1_8=:PHYSICAL_DRIVE_LABEL_1_8 ,PHYSICAL_DRIVE_STATUS_1_8=:PHYSICAL_DRIVE_STATUS_1_8,PHYSICAL_DRIVE_MODEL_1_8=:PHYSICAL_DRIVE_MODEL_1_8,PHYSICAL_DRIVE_CAPACITY_1_8=:PHYSICAL_DRIVE_CAPACITY_1_8,PHYSICAL_DRIVE_SN_1_8=:PHYSICAL_DRIVE_SN_1_8,PHYSICAL_DRIVE_CONFI_1_8=:PHYSICAL_DRIVE_CONFI_1_8,PHYSICAL_DRIVE_FW_1_8=:PHYSICAL_DRIVE_FW_1_8, \
-#              PHYSICAL_DRIVE_LABEL_1_9=:PHYSICAL_DRIVE_LABEL_1_9 ,PHYSICAL_DRIVE_STATUS_1_9=:PHYSICAL_DRIVE_STATUS_1_9,PHYSICAL_DRIVE_MODEL_1_9=:PHYSICAL_DRIVE_MODEL_1_9,PHYSICAL_DRIVE_CAPACITY_1_9=:PHYSICAL_DRIVE_CAPACITY_1_9,PHYSICAL_DRIVE_SN_1_9=:PHYSICAL_DRIVE_SN_1_9,PHYSICAL_DRIVE_CONFI_1_9=:PHYSICAL_DRIVE_CONFI_1_9,PHYSICAL_DRIVE_FW_1_9=:PHYSICAL_DRIVE_FW_1_9, \
-#              PHYSICAL_DRIVE_LABEL_1_10=:PHYSICAL_DRIVE_LABEL_1_10 ,PHYSICAL_DRIVE_STATUS_1_10=:PHYSICAL_DRIVE_STATUS_1_10,PHYSICAL_DRIVE_MODEL_1_10=:PHYSICAL_DRIVE_MODEL_1_10,PHYSICAL_DRIVE_CAPACITY_1_10=:PHYSICAL_DRIVE_CAPACITY_1_10,PHYSICAL_DRIVE_SN_1_10=:PHYSICAL_DRIVE_SN_1_10,PHYSICAL_DRIVE_CONFI_1_10=:PHYSICAL_DRIVE_CONFI_1_10,PHYSICAL_DRIVE_FW_1_10=:PHYSICAL_DRIVE_FW_1_10, \
-#              PHYSICAL_DRIVE_LABEL_1_11=:PHYSICAL_DRIVE_LABEL_1_11 ,PHYSICAL_DRIVE_STATUS_1_11=:PHYSICAL_DRIVE_STATUS_1_11,PHYSICAL_DRIVE_MODEL_1_11=:PHYSICAL_DRIVE_MODEL_1_11,PHYSICAL_DRIVE_CAPACITY_1_11=:PHYSICAL_DRIVE_CAPACITY_1_11,PHYSICAL_DRIVE_SN_1_11=:PHYSICAL_DRIVE_SN_1_11,PHYSICAL_DRIVE_CONFI_1_11=:PHYSICAL_DRIVE_CONFI_1_11,PHYSICAL_DRIVE_FW_1_11=:PHYSICAL_DRIVE_FW_1_11, \
-#              PHYSICAL_DRIVE_LABEL_1_12=:PHYSICAL_DRIVE_LABEL_1_12 ,PHYSICAL_DRIVE_STATUS_1_12=:PHYSICAL_DRIVE_STATUS_1_12,PHYSICAL_DRIVE_MODEL_1_12=:PHYSICAL_DRIVE_MODEL_1_12,PHYSICAL_DRIVE_CAPACITY_1_12=:PHYSICAL_DRIVE_CAPACITY_1_12,PHYSICAL_DRIVE_SN_1_12=:PHYSICAL_DRIVE_SN_1_12,PHYSICAL_DRIVE_CONFI_1_12=:PHYSICAL_DRIVE_CONFI_1_12,PHYSICAL_DRIVE_FW_1_12=:PHYSICAL_DRIVE_FW_1_12, \
-#              PHYSICAL_DRIVE_LABEL_1_13=:PHYSICAL_DRIVE_LABEL_1_13 ,PHYSICAL_DRIVE_STATUS_1_13=:PHYSICAL_DRIVE_STATUS_1_13,PHYSICAL_DRIVE_MODEL_1_13=:PHYSICAL_DRIVE_MODEL_1_13,PHYSICAL_DRIVE_CAPACITY_1_13=:PHYSICAL_DRIVE_CAPACITY_1_13,PHYSICAL_DRIVE_SN_1_13=:PHYSICAL_DRIVE_SN_1_13,PHYSICAL_DRIVE_CONFI_1_13=:PHYSICAL_DRIVE_CONFI_1_13,PHYSICAL_DRIVE_FW_1_13=:PHYSICAL_DRIVE_FW_1_13, \
-#              PHYSICAL_DRIVE_LABEL_1_14=:PHYSICAL_DRIVE_LABEL_1_14 ,PHYSICAL_DRIVE_STATUS_1_14=:PHYSICAL_DRIVE_STATUS_1_14,PHYSICAL_DRIVE_MODEL_1_14=:PHYSICAL_DRIVE_MODEL_1_14,PHYSICAL_DRIVE_CAPACITY_1_14=:PHYSICAL_DRIVE_CAPACITY_1_14,PHYSICAL_DRIVE_SN_1_14=:PHYSICAL_DRIVE_SN_1_14,PHYSICAL_DRIVE_CONFI_1_14=:PHYSICAL_DRIVE_CONFI_1_14,PHYSICAL_DRIVE_FW_1_14=:PHYSICAL_DRIVE_FW_1_14 where IP_ILO=:IP_ILO',
-#              param)
-#     connection.commit()
-#     connection.close()
 
 
 def insert_storage_info(logical_drive=None,logical_drive_status=None,logical_drive_capacity=None,logical_drive_tolerance=None,logical_drive_type=None,physical_drive_label=None,physical_drive_status=None,physical_drive_capacity=None,physical_drive_model=None,physical_drive_sn=None,physical_drive_confi=None,physical_drive_fw=None,ip=None,id=None):
@@ -166,20 +91,64 @@ def insert_storage_ilo3_info(physical_drive_label,physical_drive_status,physical
     with connection.cursor() as cursor:
         cursor.execute(
             'INSERT INTO STORAGE_INFO(PHYSICAL_DRIVE_LABEL,PHYSICAL_DRIVE_STATUS,PHYSICAL_DRIVE_SN,IP_ILO,HARDWARE_ID) values(:PHYSICAL_DRIVE_LABEL,:PHYSICAL_DRIVE_STATUS,:PHYSICAL_DRIVE_SN,:IP_ILO,:HARDWARE_ID)'
-            , param)
+            ,param)
     connection.commit()
     connection.close()
 
-
-
-def insert_power_info():
+def insert_power_info(power_supplies_label=None,power_supplies_status=None,power_supplies_sn=None,power_supplies_capacity=None,power_supplies_hotplug=None,power_supplies_model=None,
+                      power_supplies_present=None,power_supplies_spare=None,power_supplies_fw=None,power_supplies_pds=None,ip=None,id=None):
     connection = cx_Oracle.connect('gl_sm/gl_sm@10.195.227.244/db244d')
-    param = {'SOCKET': socket, 'SOCKET_STATUS': socket_status,
-             'SOCKET_PART_NUMBER': socket_part_number, 'SOCKET_TYPE': socket_type, 'SOCKET_SIZE': socket_size,
-             'SOCKET_FREQUENCY': socket_frequency, 'SOCKET_MINIMUM_VOLTAGE': socket_minimum_voltage, 'IP_ILO': ip}
+    param= {
+               'POWER_SUPPLY': power_supplies_label, 'POWER_SUPPLY_STATUS': power_supplies_status, 'POWER_SUPPLY_CAPACITY': power_supplies_capacity,
+               'POWER_SUPPLY_PRESENT': power_supplies_present,'POWER_SUPPLY_MODEL': power_supplies_model,'POWER_SUPPLY_SPARE': power_supplies_spare,
+               'POWER_SUPPLY_HOTPLUG': power_supplies_hotplug,'POWER_SUPPLY_SN': power_supplies_sn,'POWER_SUPPLY_PDS': power_supplies_pds,'POWER_SUPPLY_FW': power_supplies_fw,
+               'IP_ILO': ip,'HARDWARE_ID': id
+    }
     with connection.cursor() as cursor:
         cursor.execute(
-            'update MEMORY_INFO set SOCKET_8=:socket,SOCKET_8_STATUS=:socket_status,SOCKET_8_PART_NUMBER=:socket_part_number,SOCKET_8_TYPE=:socket_type,SOCKET_8_SIZE=:socket_size,SOCKET_8_FREQUENCY=:socket_frequency,SOCKET_8_MINIMUM_VOLTAGE=:socket_minimum_voltage where IP_ILO=:IP_ILO',
-            param)
+            'INSERT INTO BATTERY_INFO(POWER_SUPPLY,POWER_SUPPLY_STATUS,POWER_SUPPLY_CAPACITY,POWER_SUPPLY_PRESENT,POWER_SUPPLY_MODEL,POWER_SUPPLY_SPARE,POWER_SUPPLY_FW,POWER_SUPPLY_HOTPLUG,POWER_SUPPLY_SN,POWER_SUPPLY_PDS,IP_ILO,HARDWARE_ID) values(:POWER_SUPPLY,:POWER_SUPPLY_STATUS,:POWER_SUPPLY_CAPACITY,:POWER_SUPPLY_PRESENT,:POWER_SUPPLY_MODEL,:POWER_SUPPLY_SPARE,:POWER_SUPPLY_FW,:POWER_SUPPLY_HOTPLUG,:POWER_SUPPLY_SN,:POWER_SUPPLY_PDS,:IP_ILO,:HARDWARE_ID)'
+            ,param)
     connection.commit()
     connection.close()
+
+def insert_power_ilo3_info(power_supplies_label=None,power_supplies_status=None,ip=None,id=None):
+    connection = cx_Oracle.connect('gl_sm/gl_sm@10.195.227.244/db244d')
+    param= {
+               'POWER_SUPPLY': power_supplies_label, 'POWER_SUPPLY_STATUS': power_supplies_status,
+               'IP_ILO': ip,'HARDWARE_ID': id
+    }
+    with connection.cursor() as cursor:
+        cursor.execute(
+            'INSERT INTO BATTERY_INFO(POWER_SUPPLY,POWER_SUPPLY_STATUS,IP_ILO,HARDWARE_ID) values(:POWER_SUPPLY,:POWER_SUPPLY_STATUS,:IP_ILO,:HARDWARE_ID)'
+            ,param)
+    connection.commit()
+    connection.close()
+
+def update_power_sum_info(high_efficiency_mode=None, power_redundancy_status=None, power_management_control_fw=None, present_power_reading=None, power_system_redundancy=None,ip=None,id=None):
+    connection = cx_Oracle.connect('gl_sm/gl_sm@10.195.227.244/db244d')
+    param = {
+        'HIGH_EFFICIENCY_MODE': high_efficiency_mode, 'POWER_REDUNDANCY_STATUS': power_redundancy_status,'POWER_MANAGEMENT_CONTROL_FW': power_management_control_fw,'PRESENT_POWER_READING': present_power_reading,'POWER_SYSTEM_REDUNDANCY': power_system_redundancy,
+        'IP_ILO': ip
+    }
+    with connection.cursor() as cursor:
+        cursor.execute(
+            'UPDATE BATTERY_INFO SET HIGH_EFFICIENCY_MODE=:HIGH_EFFICIENCY_MODE,POWER_REDUNDANCY_STATUS=:POWER_REDUNDANCY_STATUS,POWER_MANAGEMENT_CONTROL_FW=:POWER_MANAGEMENT_CONTROL_FW,PRESENT_POWER_READING=:PRESENT_POWER_READING,POWER_SYSTEM_REDUNDANCY=:POWER_SYSTEM_REDUNDANCY where IP_ILO=:IP_ILO'
+            ,param)
+    connection.commit()
+    connection.close()
+
+
+def insert_processor_info(processor_name=None,processor_status=None,processor_label=None,processor_execution_technology=None,processor_internal_l1_cache=None,processor_internal_l2_cache=None,processor_internal_l3_cache=None,processor_memory_technology=None,processor_speed=None,ip=None,id=None):
+    connection = cx_Oracle.connect('gl_sm/gl_sm@10.195.227.244/db244d')
+    param= {
+               'PROCESSOR_NAME': processor_name,'PROCESSOR_STATUS': processor_status,'PROCESSOR_LABEL': processor_label, 'PROCESSOR_EXE_TECH': processor_execution_technology, 'PROCESSOR_INTER_L1_CACHE': processor_internal_l1_cache,'PROCESSOR_INTER_L2_CACHE': processor_internal_l2_cache,
+               'PROCESSOR_INTER_L3_CACHE': processor_internal_l3_cache, 'PROCESSOR_MEMORY_TECH': processor_memory_technology, 'PROCESSOR_SPEED': processor_speed,
+               'IP_ILO': ip,'HARDWARE_ID': id}
+    with connection.cursor() as cursor:
+        cursor.execute(
+            'INSERT INTO PROCESSOR_INFO(PROCESSOR_NAME,PROCESSOR_STATUS,PROCESSOR_LABEL,PROCESSOR_EXE_TECH,PROCESSOR_INTER_L1_CACHE,PROCESSOR_INTER_L2_CACHE,PROCESSOR_INTER_L3_CACHE,PROCESSOR_MEMORY_TECH,PROCESSOR_SPEED,IP_ILO,HARDWARE_ID) values(:PROCESSOR_NAME,:PROCESSOR_STATUS,:PROCESSOR_LABEL,:PROCESSOR_EXE_TECH,:PROCESSOR_INTER_L1_CACHE,:PROCESSOR_INTER_L2_CACHE,:PROCESSOR_INTER_L3_CACHE,:PROCESSOR_MEMORY_TECH,:PROCESSOR_SPEED,:IP_ILO,:HARDWARE_ID)'
+            ,param)
+    connection.commit()
+    connection.close()
+
+

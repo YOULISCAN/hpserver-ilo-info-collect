@@ -20,7 +20,11 @@ def get_storage_info_ilo3(all_info):
 
 def get_storage_info(all_info):
     storage = all_info['storage']
-    Controller_on_System_Board = storage['Controller on System Board']
+    try:
+        Controller_on_System_Board = storage['Controller on System Board']
+    except :
+        Controller_on_System_Board = storage['Controller in Slot 5']
+
     logical_drives = Controller_on_System_Board['logical_drives']
     yield (len(logical_drives))
     for i in range(0,len(logical_drives)):
@@ -58,7 +62,8 @@ def get_memory_info(all_info):
 
 def get_memory_info_ilo3(all_info):
     memory = all_info['memory']
-    yield (len(memory))
+
+    yield (len(memory.values()[0]))
     for i in memory.values()[0]:
         yield(i[0][1]['value'],i[1][1]['value'],i[2][1]['value'])
  #       print("memory_location:{}; memory_size:{}; memory_speed:{}".format(i[0][1]['value'],i[1][1]['value'],i[2][1]['value']))
@@ -82,13 +87,15 @@ def get_network_info(xmldata):
 
 def get_processors_info_ilo3(all_info):
     proces = all_info['processors']
+    yield (len(proces))
     for i in proces:
-        print("{}: ;speed:{}; execution_technology:{}".format(i,proces[i]['speed'],proces[i]['execution_technology']))
+        yield(proces[i]['label'],proces[i]['execution_technology'],proces[i]['internal_l1_cache'],proces[i]['internal_l2_cache'],proces[i]['internal_l3_cache'],proces[i]['memory_technology'],proces[i]['speed'])
 
 def get_processors_info(all_info):
     proces = all_info['processors']
+    yield(len(proces))
     for i in proces:
-        print("{}: name:{}; status:{}; speed:{}".format(i,proces[i]['name'],proces[i]['status'],proces[i]['speed']))
+        yield(proces[i]['name'],proces[i]['status'],proces[i]['label'],proces[i]['execution_technology'],proces[i]['internal_l1_cache'],proces[i]['internal_l2_cache'],proces[i]['internal_l3_cache'],proces[i]['memory_technology'],proces[i]['speed'])
 
 def get_fan_info(ilo_model,all_info):
     dict_fan = {}
@@ -113,41 +120,55 @@ def get_power_info(all_info):
     power_supplies = all_info['power_supplies']
     number = len(power_supplies)
     yield (number)
+    flag = 0
     for i in power_supplies:
-        if i == 'Battery 1':
-            yield(power_supplies[i]['label'],power_supplies[i]['status'],power_supplies[i]['present'],power_supplies[i]['model'],
-                  power_supplies[i]['spare'],power_supplies[i]['firmware_version'],power_supplies[i]['capacity'],power_supplies[i]['serial_number'])
-            print(power_supplies[i]['label'],power_supplies[i]['status'],power_supplies[i]['present'],power_supplies[i]['model'],
-                  power_supplies[i]['spare'],power_supplies[i]['firmware_version'],power_supplies[i]['capacity'],power_supplies[i]['serial_number'])
+        if  power_supplies[i]['label'] == 'Battery 1':
+            power_supplies[i]['hotplug_capable'] = None
+            power_supplies[i]['pds'] = None
 
-        else:
-            yield(power_supplies[i]['label'],power_supplies[i]['status'],power_supplies[i]['serial_number'],power_supplies[i]['capacity'],
-                  power_supplies[i]['hotplug_capable'],power_supplies[i]['model'],power_supplies[i]['present'],power_supplies[i]['spare'],
-                  power_supplies[i]['firmware_version'],power_supplies[i]['pds'])
-            print(power_supplies[i]['label'],power_supplies[i]['status'],power_supplies[i]['serial_number'],power_supplies[i]['capacity'],
-                  power_supplies[i]['hotplug_capable'],power_supplies[i]['model'],power_supplies[i]['present'],power_supplies[i]['spare'],
-                  power_supplies[i]['firmware_version'],power_supplies[i]['pds'])
+        print(power_supplies[i]['label'], power_supplies[i]['status'], power_supplies[i]['serial_number'],
+              power_supplies[i]['capacity'],
+              power_supplies[i]['hotplug_capable'], power_supplies[i]['model'], power_supplies[i]['present'],
+              power_supplies[i]['spare'],
+              power_supplies[i]['firmware_version'], power_supplies[i]['pds'])
+        yield (power_supplies[i]['label'], power_supplies[i]['status'], power_supplies[i]['serial_number'],
+               power_supplies[i]['capacity'],
+               power_supplies[i]['hotplug_capable'], power_supplies[i]['model'], power_supplies[i]['present'],
+               power_supplies[i]['spare'],
+               power_supplies[i]['firmware_version'], power_supplies[i]['pds'])
 
+
+
+def get_power_summary_info(all_info):
     power_supply_summary = all_info['power_supply_summary']
+    print("present_power_reading: {};\
+               power_management_controller_firmware_version: {};\
+               power_system_redundancy: {};\
+               high_efficiency_mode: {}".format(power_supply_summary['present_power_reading'],
+                                                power_supply_summary['power_management_controller_firmware_version'],
+                                                power_supply_summary['power_system_redundancy'],
+                                                power_supply_summary['high_efficiency_mode']))
     yield(power_supply_summary['high_efficiency_mode'],power_supply_summary['power_management_controller_firmware_version'],
           power_supply_summary['present_power_reading'],power_supply_summary['power_system_redundancy'],
           power_supply_summary['hp_power_discovery_services_redundancy_status'])
-    print("present_power_reading: {};\
-           power_management_controller_firmware_version: {};\
-           power_system_redundancy: {};\
-           high_efficiency_mode: {}".format(power_supply_summary['present_power_reading'],
-                                            power_supply_summary['power_management_controller_firmware_version'],
-                                            power_supply_summary['power_system_redundancy'],
-                                            power_supply_summary['high_efficiency_mode']))
+
+
+def get_power_summary_ilo3_info(all_info):
+    power_supply_summary = all_info['power_supply_summary']
+    print(power_supply_summary['high_efficiency_mode'], power_supply_summary['power_management_controller_firmware_version'],
+    power_supply_summary['present_power_reading'])
+    yield (
+    power_supply_summary['high_efficiency_mode'], power_supply_summary['power_management_controller_firmware_version'],
+    power_supply_summary['present_power_reading'])
 
 
 def get_power_info_ilo3(all_info):
     power = all_info['power_supplies']
+    yield(len(power))
     for i in power:
+        print(i, power[i]['status'])
         yield(i, power[i]['status'])
-    power_supply_summary = all_info['power_supply_summary']
-    yield (power_supply_summary['high_efficiency_mode'], power_supply_summary['power_management_controller_firmware_version'],
-           power_supply_summary['present_power_reading'])
+
 
 def get_temperature_info(all_info):
     temper = all_info['temperature']
