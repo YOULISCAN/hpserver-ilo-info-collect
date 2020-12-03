@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUploadExternalChanges="true">
+  <component name="PublishConfigData" autoUpload="On explicit save action" serverName="root@10.172.108.131:22" filePermissions="420" folderPermissions="493" autoUploadExternalChanges="true">
     <serverData>
       <paths name="root@10.172.108.100:22">
         <serverdata>
@@ -17,5 +17,6 @@
         </serverdata>
       </paths>
     </serverData>
+    <option name="myAutoUpload" value="ON_EXPLICIT_SAVE" />
   </component>
 </project>

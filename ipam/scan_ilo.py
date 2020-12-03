@@ -7,8 +7,8 @@ import nmap
 import cx_Oracle
 import queue
 
-num_threads = 10
-num_threads1 = 5
+num_threads = 20
+num_threads1 = 20
 q = queue.Queue()
 p = queue.Queue()
 addlock = threading.Lock()
@@ -17,36 +17,30 @@ strr2 = "AllegroSoft RomSShell sshd"
 #class collect_IP():
 
 
-def connect_oracle( IP,judge):
+def connect_oracle(IP,judge):
 
     if judge == 0:
         p.put(IP)
         connection = cx_Oracle.connect('gl_sm/gl_sm@10.195.227.244/db244d')
-        try:
-            status = 1
-            param = {'IP': IP, 'status': status}
-            with connection.cursor() as cursor:
-#                sql = ""
-                cursor.execute('insert into "ip_test" values(:IP,:status)' , param)
-            connection.commit()
-        finally:
-            connection.close()
+        status = 1
+        param = {'PING_IP': status ,'IP_ILO': IP}
+        print(type(IP),status)
+        with connection.cursor() as cursor:
+            cursor.execute('update ILO_INFO set PING_IP=:PING_IP where IP_ILO=:IP_ILO', param)
+        connection.commit()
+        connection.close()
     else:
-
         connection = cx_Oracle.connect('gl_sm/gl_sm@10.195.227.244/db244d')
-        try:
-            status = 0
-            param = {'IP': IP, 'status': status}
-            with connection.cursor() as cursor:
-            #    sql = "'insert into ip_test values(:IP,:status)' , param"
-                cursor.execute('insert into "ip_test" values(:IP,:status)' , param)
-            connection.commit()
-        finally:
-            connection.close()
+        status = 0
+        param = {'PING_IP': status, 'IP_ILO': IP}
+        with connection.cursor() as cursor:
+            cursor.execute('update GL_SM.ILO_INFO set PING_IP=:PING_IP where IP_ILO=:IP_ILO', param)
+        connection.commit()
+        connection.close()
 
 
 #class judge_IP():
-def Ping_all(self):
+def Ping_all():
     while not q.empty():
         ip = q.get()
         q.task_done()
@@ -54,12 +48,15 @@ def Ping_all(self):
         with addlock:
             if res == 0:
                 print(ip,"------>该IP使用中")
-                connect_oracle(ip,res)
-            else:
-                print(ip,"------>该IP闲置中")
+                print(res)
                 connect_oracle(ip,res)
 
-def judge_ilo(self):
+            else:
+                print(ip,"------>该IP闲置中")
+                print(res)
+                connect_oracle(ip,res)
+
+def judge_ilo():
     print("----------------开始扫描指定IP--------------------")
     while not p.empty():
         ip = p.get()
@@ -69,35 +66,53 @@ def judge_ilo(self):
         portinfo = nm.csv()
         portinfo1 = portinfo.split(';')
         for i in portinfo1:
+            number = 0
             if i == strr1 or i == strr2 :
                 print(ip,'----->该IP已配置ilo插入数据库')
                 connection = cx_Oracle.connect('gl_sm/gl_sm@10.195.227.244/db244d')
-                try:
-                    status = 1
-                    param = {'IP_ILO': ip, 'IP_ILO_STATUS': status}
-                    with connection.cursor() as cursor:
-                      # sql = ""
-                        cursor.execute('insert into ILO_INFO (IP_ILO,IP_ILO_STATUS)values(:IP_ILO,:IP_ILO_STATUS)',param)
-                    connection.commit()
-                finally:
-                    connection.close()
+                status = 1
+                param = {'IP_ILO': ip, 'IP_ILO_STATUS': status}
+                print(param)
+                with connection.cursor() as cursor:
+                    cursor.execute('UPDATE GL_SM.ILO_INFO SET IP_ILO_STATUS=:IP_ILO_STATUS WHERE IP_ILO=:IP_ILO',param)
+                connection.commit()
+                connection.close()
+                continue
+            else:
+                number += 1
+            if number == len(portinfo1):
+                connection = cx_Oracle.connect('gl_sm/gl_sm@10.195.227.244/db244d')
+                status = 0
+                param = {'IP_ILO': ip, 'IP_ILO_STATUS': status}
+                print(param)
+                with connection.cursor() as cursor:
+                    cursor.execute('UPDATE GL_SM.ILO_INFO SET IP_ILO_STATUS=:IP_ILO_STATUS WHERE IP_ILO=:IP_ILO', param)
+                connection.commit()
+                connection.close()
 
 
 
 
 if __name__ == '__main__':
-    file = open("ipam\IP.txt", 'r', encoding='utf-8')
-    for i in file:
-        i = i.strip()
-        q.put(i)
-    size = q.qsize()
-    threads = []
-    for i in range(num_threads):
-         thread = threading.Thread(target=Ping_all, args=(i,))
-         thread.start()
-         threads.append(thread)
-    for thread in threads: thread.join()
+   sql = 'SELECT IP_ILO FROM GL_SM.ILO_INFO'
+   connection = cx_Oracle.connect('gl_sm/gl_sm@10.195.227.244/db244d')
+   with connection.cursor() as cursor:
+       hah = cursor.execute(sql)
 
-    for j in range(num_threads1):
-        threading.Thread(target=judge_ilo, args=(j,)).start()
-    #judge_ilo()
+      # file = open("IP.txt", 'r')
+       for i in hah:
+           i = eval(str(i).lstrip('(').rstrip(")").strip(","))
+           q.put(i)
+           print(i)
+       size = q.qsize()
+       print(size)
+       threads = []
+       for i in range(num_threads):
+            thread = threading.Thread(target=Ping_all, args=())
+            thread.start()
+            threads.append(thread)
+       for thread in threads: thread.join()
+
+       for j in range(num_threads1):
+            threading.Thread(target=judge_ilo, args=()).start()
+       judge_ilo()

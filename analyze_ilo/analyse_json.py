@@ -23,8 +23,13 @@ def get_storage_info(all_info):
     try:
         Controller_on_System_Board = storage['Controller on System Board']
     except :
-        Controller_on_System_Board = storage['Controller in Slot 5']
+        try:
+            Controller_on_System_Board = storage['Controller in Slot 5']
+        except :
+            Controller_on_System_Board = storage['Controller in Slot 6']
 
+    yield (Controller_on_System_Board['model'],Controller_on_System_Board['serial_number'],Controller_on_System_Board['status'])
+    print(Controller_on_System_Board['model'],Controller_on_System_Board['serial_number'],Controller_on_System_Board['status'])
     logical_drives = Controller_on_System_Board['logical_drives']
     yield (len(logical_drives))
     for i in range(0,len(logical_drives)):
