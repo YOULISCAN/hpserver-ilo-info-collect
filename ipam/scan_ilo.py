@@ -6,9 +6,9 @@ import threading
 import nmap
 import cx_Oracle
 import queue
-
-num_threads = 20
-num_threads1 = 20
+import time
+num_threads = 200
+num_threads1 = 200
 q = queue.Queue()
 p = queue.Queue()
 addlock = threading.Lock()
@@ -90,29 +90,56 @@ def judge_ilo():
                 connection.commit()
                 connection.close()
 
+def update_info(ip,site):
+    connection = cx_Oracle.connect('gl_sm/gl_sm@10.195.227.244/db244d')
+    param = {
+        "IP_ILO":ip , "SITE": site
+    }
+    with connection.cursor() as cursor:
+        try:
+            cursor.execute('INSERT into ILO_INFO(IP_ILO,SITE) values (:IP_ILO,:SITE)',param)
+        except:
+            print('unique value')
+    connection.commit()
+    connection.close()
 
 
 
 if __name__ == '__main__':
-   sql = 'SELECT IP_ILO FROM GL_SM.ILO_INFO'
-   connection = cx_Oracle.connect('gl_sm/gl_sm@10.195.227.244/db244d')
-   with connection.cursor() as cursor:
-       hah = cursor.execute(sql)
 
+    #sql1 = 'SELECT IP_ILO FROM GL_SM.ILO_INFO where IP_ILO=:IP_ILO'
+    sql = '''   select site_code_id,ip_ilo,count(ip_ilo) as num
+                from itim_auto.ITIM_ASSETS@itim_auto_pitimdb where CATEGORY_ID='服務器'
+                and ASSETS_STATUS_ID in ('正式','在用','備用','測試') and assets_model like 'HP%'
+                group by site_code_id,ip_ilo having count(ip_ilo)=1      
+          '''
+    connection = cx_Oracle.connect('gl_sm/gl_sm@10.195.227.244/db244d')
+    with connection.cursor() as cursor:
+       hah1 = cursor.execute(sql)
       # file = open("IP.txt", 'r')
-       for i in hah:
-           i = eval(str(i).lstrip('(').rstrip(")").strip(","))
-           q.put(i)
-           print(i)
-       size = q.qsize()
-       print(size)
-       threads = []
-       for i in range(num_threads):
-            thread = threading.Thread(target=Ping_all, args=())
-            thread.start()
-            threads.append(thread)
-       for thread in threads: thread.join()
+       for i in hah1:
+           ip = str(i[1]).lstrip('(').rstrip(")").strip(",")
+           site = i[0]
+           try:
+               update_info(ip,site)
+               print(ip,site)
+           except:
+               raise
 
-       for j in range(num_threads1):
-            threading.Thread(target=judge_ilo, args=()).start()
-       judge_ilo()
+           q.put(ip)
+           print(ip)
+    connection.commit()
+    connection.close()
+    size = q.qsize()
+    print(size)
+    threads = []
+    for i in range(num_threads):
+        thread = threading.Thread(target=Ping_all, args=())
+        thread.start()
+        threads.append(thread)
+    for thread in threads: thread.join()
+
+    for j in range(num_threads1):
+        threading.Thread(target=judge_ilo, args=()).start()
+    judge_ilo()
+
